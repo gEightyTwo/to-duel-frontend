@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
-
+import { Container, Row, Col } from 'reactstrap';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 // import { getUser } from './actions/auth'
@@ -10,6 +10,7 @@ import { AuthenticatedRoute } from './helpers';
 import './styles/App.css';
 import Header from './components/Header';
 import Login from './components/Login';
+import DailyList from './components/DailyList';
 
 class App extends React.Component {
   componentDidMount = () => {
@@ -25,16 +26,23 @@ class App extends React.Component {
             <Route path="/login" component={Login} />
           </Switch>
         </BrowserRouter>
-        <p>
-          {console.log(this.props.dailies)}
-        </p>
+        <Container>
+          <Row>
+            <Col xs="12" md="6">
+              <DailyList />
+            </Col>
+            <Col xs="12" md="6">
+              <h2>Duels!</h2>
+            </Col>
+          </Row>
+        </Container>
       </div>
     );
   }
 }
 
-const mapStateToProps = ( {counter, dailies} ) => {
-  return {counter, dailies}
+const mapStateToProps = ( {dailies} ) => {
+  return {dailies}
 }
 
 const mapDispatchToProps = (dispatch) => {
