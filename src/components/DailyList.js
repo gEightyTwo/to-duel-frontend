@@ -1,25 +1,31 @@
 import React from 'react'
-import { CardDeck } from 'reactstrap';
+import { connect } from 'react-redux';
+import { ListGroup } from 'reactstrap';
 import Daily from './Daily'
 import 'bootstrap/dist/css/bootstrap.css'
 
 const DailyList = (props) => {
-  const Dailies = snackData.map(snack => {
+  const dailiesData = props.dailies.dailies
+  const Dailies = dailiesData.map(daily => {
     return (
       <Daily
-        key={snack.id}
-        // snack={snack}
-        // handleCardShow={handleCardShow}
+        key={daily.id}
+        daily={daily}
       />
     )
   })
 
     return (
-      <CardDeck>
+      <ListGroup>
+
         {Dailies}
-      </CardDeck>
+      </ListGroup>
 
     )
 }
 
-export default DailyList
+const mapStateToProps = ( {dailies} ) => {
+  return {dailies}
+}
+
+export default connect(mapStateToProps, null)(DailyList);
