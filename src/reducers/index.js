@@ -22,8 +22,19 @@ function counter(state = 0, action) { //state is the existing state
   }
 }
 
+const dailies = (state = [], action) => {
+  console.log(state, action)
+  switch(action.type){
+    case FETCH_DAILIES_SUCCESS:
+      return action.payload
+    default:
+      return state
+  }
+}
+
 const rootReducer = combineReducers({
-    counter: counter
+    counter,
+    dailies,
 });
 
 export default rootReducer;

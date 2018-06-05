@@ -12,8 +12,9 @@ import Header from './components/Header';
 import Login from './components/Login';
 
 class App extends React.Component {
-  componentDidMount() {
-    this.props.fetchDailies
+  componentDidMount = () => {
+    this.props.fetchDailies()
+    console.log('load')
   }
   render() {
     return (
@@ -31,17 +32,20 @@ class App extends React.Component {
             <Route path="/login" component={Login} />
           </Switch>
         </BrowserRouter>
+        <p>
+          {console.log(this.props.dailies)}
+        </p>
       </div>
     );
   }
 }
 
-const mapStateToProps = ( {counter} ) => {
-  return {counter}
+const mapStateToProps = ( {counter, dailies} ) => {
+  return {counter, dailies}
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({add}, dispatch)
+  return bindActionCreators({fetchDailies, add}, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
