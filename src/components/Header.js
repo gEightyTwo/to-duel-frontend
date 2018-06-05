@@ -61,8 +61,8 @@ class Header extends React.Component {
 };
 
 const mapStateToProps = state => ({
-  user: state.auth.user,
-  authorized: state.auth.authorized
+  // user: state.auth.user,
+  // authorized: state.auth.authorized
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({ userLogout }, dispatch);
