@@ -20,13 +20,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <Header />
-        <div>
-          <button onClick={()=> this.props.add(-5)}> -5 </button>
-          <button onClick={()=> this.props.add(-1)}> -1 </button>
-          {this.props.counter}
-          <button onClick={()=> this.props.add(1)}> +1 </button>
-          <button onClick={()=> this.props.add(5)}> +5 </button>
-        </div>
+
         <BrowserRouter>
           <Switch>
             <Route path="/login" component={Login} />

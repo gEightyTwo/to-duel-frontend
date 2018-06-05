@@ -45,11 +45,11 @@ class Login extends React.Component {
                  onChange={event => this.setState({password: event.target.value})}
                />
              </FormGroup>
-             {/* {this.props.showLoginError ? (
+             {this.props.showLoginError ? (
                <Alert color="danger">
                  Email or password is incorrect.
                </Alert>
-             ) : null} */}
+             ) : null}
            </ModalBody>
            <ModalFooter>
              <Button type="submit" color="primary">
@@ -64,8 +64,8 @@ class Login extends React.Component {
  };
 };
 
-// const mapStateToProps = state => ({showLoginError: state.auth.showLoginError});
+const mapStateToProps = state => ({showLoginError: state.auth.showLoginError});
 
 const mapDispatchToProps = dispatch => ({userLogin: bindActionCreators(userLogin, dispatch)});
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
