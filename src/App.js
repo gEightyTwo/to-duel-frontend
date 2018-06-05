@@ -1,21 +1,47 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 
-class App extends Component {
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+// import { getUser } from './actions/auth'
+import { fetchDailies, add } from './actions/dailies';
+import { AuthenticatedRoute } from './helpers';
+
+import './styles/App.css';
+import Header from './components/Header';
+import Login from './components/Login';
+
+class App extends React.Component {
+  componentDidMount() {
+    this.props.fetchDailies
+  }
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <Header />
+        <div>
+          <button onClick={()=> this.props.add(-5)}> -5 </button>
+          <button onClick={()=> this.props.add(-1)}> -1 </button>
+          {this.props.counter}
+          <button onClick={()=> this.props.add(1)}> +1 </button>
+          <button onClick={()=> this.props.add(5)}> +5 </button>
+        </div>
+        <BrowserRouter>
+          <Switch>
+            <Route path="/login" component={Login} />
+          </Switch>
+        </BrowserRouter>
       </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = ( {counter} ) => {
+  return {counter}
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({add}, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
