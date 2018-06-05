@@ -29,12 +29,13 @@
   to { transform: rotate(360deg); }
 }
 
-.jumbotron{
+div.jumbotron{
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   padding: 0px;
   margin: 0px;
+  margin-bottom: 0px;
   height: 300px;
   font-family: 'IM Fell English SC', serif;
 }
