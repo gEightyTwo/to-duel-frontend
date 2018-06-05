@@ -5,6 +5,8 @@ import { Jumbotron, Container, Row, Col, Navbar, NavbarBrand, Nav, NavItem, NavL
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { userLogout } from '../actions/auth';
+import withAuthentication from '../helpers/withAuthentication'
+
 import banner from '../assets/jakub-kriz-414659-unsplash.jpg'
 import bigLogo from '../assets/fencing-duel(2).png' //from flaticon.com called fencing duel free icon
 
@@ -28,17 +30,10 @@ class Header extends React.Component {
 
         <Navbar color="dark" dark expand="md">
           <NavbarBrand href="/">
-            USER_ID
+          {this.props.authState && this.props.authState.name}
           </NavbarBrand>
-          {
-            this.props.authorized ? (
+          { this.props.authState ? (
               <Nav className="ml-auto" navbar>
-                <NavItem>
-                  <NavLink className="nav-link" disabled> &bull; </NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink href="/snacks" className="nav-link">Snacks</NavLink>
-                </NavItem>
                 <NavItem>
                   <NavLink href="/" className="nav-link" onClick={() => this.props.userLogout()}>Log Out</NavLink>
                 </NavItem>
@@ -67,4 +62,4 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => bindActionCreators({ userLogout }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default withAuthentication(connect(mapStateToProps, mapDispatchToProps)(Header))

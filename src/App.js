@@ -20,7 +20,6 @@ class App extends React.Component {
     return (
       <div className="App">
         <Header />
-
         <BrowserRouter>
           <Switch>
             <Route path="/login" component={Login} />
