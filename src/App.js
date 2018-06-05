@@ -9,6 +9,7 @@ import { AuthenticatedRoute } from './helpers';
 
 import './styles/App.css';
 import Header from './components/Header';
+import Login from './components/Login';
 
 class App extends React.Component {
   componentDidMount() {
@@ -25,6 +26,11 @@ class App extends React.Component {
           <button onClick={()=> this.props.add(1)}> +1 </button>
           <button onClick={()=> this.props.add(5)}> +5 </button>
         </div>
+        <BrowserRouter>
+          <Switch>
+            <Route path="/login" component={Login} />
+          </Switch>
+        </BrowserRouter>
       </div>
     );
   }
