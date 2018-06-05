@@ -1,4 +1,5 @@
 import request from '../helpers/request';
+import AuthenticationService from "../helpers/AuthenticationService";
 
 export const USER_LOGIN_PENDING = 'USER_LOGIN_PENDING';
 export const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS';
@@ -22,6 +23,7 @@ export const userLogin = ({email, password}, history) => (
       return request('/auth/token');
     })
     .then(response => {
+      AuthenticationService.setAuthState(response.data);
       dispatch({
         type: USER_LOGIN_SUCCESS,
         payload: response.data

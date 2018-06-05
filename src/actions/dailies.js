@@ -1,7 +1,7 @@
 import request from '../helpers/request';
 
 export const FETCH_DAILIES_SUCCESS = 'FETCH_DAILIES_SUCCESS';
-export const FETCH_DAILIES_FAIL= 'FETCH_DAILIES_FAIL';
+// export const FETCH_DAILIES_FAIL= 'FETCH_DAILIES_FAIL';
 
 export const ADD_DAILY = 'ADD_DAILY';
 export const REMOVE_DAILY = 'REMOVE_DAILY';
@@ -11,11 +11,15 @@ export const ACCEPT_DUEL = 'ACCEPT_DUEL';
 export const CONFIRM_DUEL = 'CONFIRM_DUEL';
 export const ADD = 'ADD'
 
-export const fetchDailies = ({email, password}, history) => (
+export const fetchDailies = () => (
   dispatch => {
-
+    request('/users/1/dailies')
+    .then((response) => {
+      console.log(response)
+      dispatch({type: FETCH_DAILIES_SUCCESS, payload: response.data.data})
+    })
   }
-);
+)
 
 export function add(value){
   return {
