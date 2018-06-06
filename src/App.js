@@ -4,17 +4,20 @@ import { Container, Row, Col } from 'reactstrap';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 // import { getUser } from './actions/auth'
-import { fetchDailies, add } from './actions/dailies';
+import { fetchDailies } from './actions/dailies';
+import { fetchDuels } from './actions/duels';
 import { AuthenticatedRoute } from './helpers';
 
 import './styles/App.css';
 import Header from './components/Header';
 import Login from './components/Login';
 import DailyList from './components/DailyList';
+import DuelList from './components/DuelList';
 
 class App extends React.Component {
   componentDidMount = () => {
     this.props.fetchDailies()
+    this.props.fetchDuels()
     console.log('load')
   }
   render() {
@@ -33,6 +36,7 @@ class App extends React.Component {
             </Col>
             <Col xs="12" md="6">
               <h2>Duels!</h2>
+              <DuelList />
             </Col>
           </Row>
         </Container>
@@ -41,12 +45,12 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = ( {dailies} ) => {
-  return {dailies}
+const mapStateToProps = ( {dailies, duels} ) => {
+  return {dailies, duels}
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({fetchDailies, add}, dispatch)
+  return bindActionCreators({fetchDailies, fetchDuels}, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

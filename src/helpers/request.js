@@ -1,4 +1,5 @@
 import axios from 'axios';
+import AuthenticationService from './AuthenticationService';
 
 const request = (path, method = 'get', body = null) => {
   let bearerToken = '';
