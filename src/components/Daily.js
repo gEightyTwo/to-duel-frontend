@@ -6,7 +6,9 @@ const Daily = (props) => {
   console.log(props.daily)
   return (
     <ListGroupItem
-      className="justify-content-between">{name}
+      className="justify-content-between"
+      color= {streak>0 ? 'success' : null}
+      >{name}
       <Badge pill>{streak}</Badge>
     </ListGroupItem>
   )

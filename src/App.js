@@ -4,8 +4,9 @@ import { Container, Row, Col } from 'reactstrap';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 // import { getUser } from './actions/auth'
-import { fetchDailies, add } from './actions/dailies';
-import { AuthenticatedRoute } from './helpers';
+import { fetchDailies } from './actions/dailies';
+import { AuthenticatedRoute } from './helpers'
+import withAuthentication from './helpers/withAuthentication'
 
 import './styles/App.css';
 import Header from './components/Header';
@@ -14,8 +15,7 @@ import DailyList from './components/DailyList';
 
 class App extends React.Component {
   componentDidMount = () => {
-    this.props.fetchDailies()
-    console.log('load')
+
   }
   render() {
     return (
@@ -46,7 +46,7 @@ const mapStateToProps = ( {dailies} ) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({fetchDailies, add}, dispatch)
+  return bindActionCreators({fetchDailies}, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default withAuthentication(connect(mapStateToProps, mapDispatchToProps)(App))

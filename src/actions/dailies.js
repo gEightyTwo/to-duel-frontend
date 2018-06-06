@@ -9,11 +9,11 @@ export const REMOVE_DAILY = 'REMOVE_DAILY';
 export const START_DUEL = 'START_DUEL';
 export const ACCEPT_DUEL = 'ACCEPT_DUEL';
 export const CONFIRM_DUEL = 'CONFIRM_DUEL';
-export const ADD = 'ADD'
 
-export const fetchDailies = () => (
+export const fetchDailies = (id) => (
   dispatch => {
-    request('/users/1/dailies')
+    console.log('!!! inside of fetchDailies')
+    request(`/users/${id}/dailies`)
     .then((response) => {
       console.log(response)
       dispatch({type: FETCH_DAILIES_SUCCESS, payload: response.data.data})
@@ -21,16 +21,13 @@ export const fetchDailies = () => (
   }
 )
 
-export function add(value){
-  return {
-    type: ADD,
-    payload: value
-  }
-}
-
-export const addDaily = (newUser, history) => (
+export const addDaily = (name, users_id) => (
   dispatch => {
-
+    request(`/users/${users_id}/dailies`, 'post', {name})
+    .then((response) => {
+      console.log(response)
+      dispatch({type: ADD_DAILY, payload: response.data.data})
+    })
   }
 );
 
