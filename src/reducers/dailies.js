@@ -8,13 +8,14 @@ import {
   START_DUEL,
   ACCEPT_DUEL,
   CONFIRM_DUEL,
-  ADD
 } from '../actions/dailies'
 
 const dailies = (state = [], action) => {
   console.log(state, action)
   switch(action.type){
     case FETCH_DAILIES_SUCCESS:
+      return action.payload
+    case ADD_DAILY:
       return action.payload
     default:
       return state
