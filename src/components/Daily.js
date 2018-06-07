@@ -11,32 +11,34 @@ import FontAwesome from 'react-fontawesome'
 class Daily extends React.Component {
   constructor(props) {
     super(props)
-    this.state={
-      completed: []
-    }
-  }
 
-  fetchDuel = (userId, duelId) => {
-    request(`/users/${userId}/duels/${duelId}`)                                   //CHANGE ME
-    .then((response) => {
-      console.log(response)
-      this.setState({duel: response.data.data})
-    })
+    this.state={
+      completed: ''
+    }
+
   }
 
   fetchCompletedStatus = (userId, dailyId) => {
-    console.log(userId, dailyId)
     request(`/users/${userId}/dailies/${dailyId}/dailyHistory`, 'get')
     .then(response => {
+      console.log('response', response.data.data)
       const completedStatus = response.data.data ? response.data.data.completed : false
       this.setState({completed: completedStatus})
     })
   }
 
+  handleCheck = (userId, dailyId, completed) => {
+    request(`/users/${userId}/dailies/${dailyId}/dailyHistory`, 'post', {completed: completed})
+    .then((response) => {
+      this.fetchCompletedStatus(userId, dailyId)
+    })
+  }
+
+  // Mounting Methods
+
   componentDidMount = async () => {
     this.fetchCompletedStatus(this.props.daily.users_id, this.props.daily.id)
   }
-
 
   componentDidUpdate = async (prevProps, prevState) => {
     if(prevProps.authState !== this.props.authState){
@@ -45,9 +47,6 @@ class Daily extends React.Component {
   }
 
   render() {
-    console.log(this.props)
-
-
     const {id, name, streak, users_id, archived} = this.props.daily
 
     const dailyStyle = {
@@ -59,21 +58,22 @@ class Daily extends React.Component {
     const completedDailyStyle = {
       fontWeight: 'bold',
     }
-
+    console.log(this.state)
     return (
       <ListGroupItem
         style={dailyStyle}
         // color= {streak>0 ? 'success' : null}
-        onClick={()=>{this.props.handleCheck(users_id, id, true)
+        onClick={()=>{
+          this.handleCheck(users_id, id, !this.state.completed)
         }}
         >
-          {this.state.completed ?
+          {!this.state.completed ?
             <FontAwesome
-              name='check-square'
+              name='square-o'
               size='2x'
             /> :
             <FontAwesome
-              name='square-o'
+              name='check-square'
               size='2x'
             />
           }
