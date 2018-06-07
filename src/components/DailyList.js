@@ -9,7 +9,7 @@ import { fetchDailies, addDaily } from '../actions/dailies';
 import withAuthentication from '../helpers/withAuthentication'
 
 class DailyList extends React.Component {
-  
+
   // Mounting Methods
   componentDidMount = async () => {
     if (this.props.authState) {

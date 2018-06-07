@@ -1,30 +1,52 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { handleCheck, fetchCompletedStatus } from '../actions/dailies';
-
+import { handleCheck } from '../actions/dailies';
+import request from '../helpers/request';
 import { ListGroup, ListGroupItem, Badge } from 'reactstrap';
 import FontAwesome from 'react-fontawesome'
 
 
 
 class Daily extends React.Component {
-  componentDidMount = async () => {
-    this.props.fetchCompletedStatus(this.props.daily.users_id, this.props.daily.id)
+  constructor(props) {
+    super(props)
+    this.state={
+      completed: []
+    }
   }
 
-  //
-  // componentDidUpdate = async (prevProps, prevState) => {
-  //   if(prevProps.authState !== this.props.authState){
-  //     this.props.fetchCompletedStatus(this.props.authState.id)
-  //   }
-  // }
+  fetchDuel = (userId, duelId) => {
+    request(`/users/${userId}/duels/${duelId}`)                                   //CHANGE ME
+    .then((response) => {
+      console.log(response)
+      this.setState({duel: response.data.data})
+    })
+  }
+
+  fetchCompletedStatus = (userId, dailyId) => {
+    console.log(userId, dailyId)
+    request(`/users/${userId}/dailies/${dailyId}/dailyHistory`, 'get')
+    .then(response => {
+      const completedStatus = response.data.data ? response.data.data.completed : false
+      this.setState({completed: completedStatus})
+    })
+  }
+
+  componentDidMount = async () => {
+    this.fetchCompletedStatus(this.props.daily.users_id, this.props.daily.id)
+  }
 
 
-
+  componentDidUpdate = async (prevProps, prevState) => {
+    if(prevProps.authState !== this.props.authState){
+      this.fetchCompletedStatus(this.props.authState.id)
+    }
+  }
 
   render() {
     console.log(this.props)
+
 
     const {id, name, streak, users_id, archived} = this.props.daily
 
@@ -34,33 +56,30 @@ class Daily extends React.Component {
       alignItems: 'center',
     }
 
+    const completedDailyStyle = {
+      fontWeight: 'bold',
+    }
+
     return (
       <ListGroupItem
         style={dailyStyle}
-        color= {streak>0 ? 'success' : null}
+        // color= {streak>0 ? 'success' : null}
         onClick={()=>{this.props.handleCheck(users_id, id, true)
         }}
         >
-          {/* <FontAwesome
-            name='check-square-o'
-            size='2x'
-          /> */}
-          <FontAwesome
-            name='square-o'
-            size='2x'
-          />
-          <FontAwesome
-            name='check-square'
-            size='2x'
-          />
-          {/* <FontAwesome
-            className='super-crazy-colors'
-            name='rocket'
-            size='2x'
-            // spin
-            style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' }}
-          /> */}
-          {name}
+          {this.state.completed ?
+            <FontAwesome
+              name='check-square'
+              size='2x'
+            /> :
+            <FontAwesome
+              name='square-o'
+              size='2x'
+            />
+          }
+          <div style={!this.state.completed ? completedDailyStyle: null}>
+            {name}
+          </div>
           <Badge pill>{streak}</Badge>
         </ListGroupItem>
       )
@@ -72,7 +91,7 @@ const mapStateToProps = ({dailiesCompletedStatus}) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({handleCheck, fetchCompletedStatus}, dispatch)
+  return bindActionCreators({handleCheck}, dispatch)
 }
 
 export default connect(null, mapDispatchToProps)(Daily)

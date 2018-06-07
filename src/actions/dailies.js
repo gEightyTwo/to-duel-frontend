@@ -1,8 +1,6 @@
 import request from '../helpers/request';
 
 export const FETCH_DAILIES_SUCCESS = 'FETCH_DAILIES_SUCCESS';
-// export const FETCH_DAILIES_FAIL= 'FETCH_DAILIES_FAIL';
-export const FETCH_DAILY_COMPLETED_STATUS = 'FETCH_DAILY_COMPLETED_STATUS';
 export const REMOVE_DAILY = 'REMOVE_DAILY';
 
 export const START_DUEL = 'START_DUEL';
@@ -32,21 +30,6 @@ export const handleCheck = (userId, dailyId, completed) => (
     request(`/users/${userId}/dailies/${dailyId}/dailyHistory`, 'post', {completed})
     .then((response) => {
       dispatch(fetchDailies(userId))
-    })
-  }
-);
-
-export const fetchCompletedStatus = (userId, dailyId) => (
-  dispatch => {
-    console.log(userId, dailyId)
-    request(`/users/${userId}/dailies/${dailyId}/dailyHistory`, 'get')
-    .then((res) => {
-      console.log(res.data.data)
-      if(res.data.data) {
-        dispatch({type: FETCH_DAILY_COMPLETED_STATUS, payload: res.data.data})
-      } else {
-        dispatch({type: FETCH_DAILY_COMPLETED_STATUS, payload: {completed: false}})
-      }
     })
   }
 );
