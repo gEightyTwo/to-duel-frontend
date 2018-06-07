@@ -2,8 +2,8 @@ import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 import {
   FETCH_DAILIES_SUCCESS,
-  FETCH_DAILIES_FAIL,
-  ADD_DAILY,
+  // FETCH_DAILIES_FAIL,
+  FETCH_DAILY_COMPLETED_STATUS,
   REMOVE_DAILY,
   START_DUEL,
   ACCEPT_DUEL,
@@ -15,7 +15,18 @@ const dailies = (state = [], action) => {
   switch(action.type){
     case FETCH_DAILIES_SUCCESS:
       return action.payload
-    case ADD_DAILY:
+    default:
+      return state
+  }
+}
+
+// Need to redo this reducer so that FETCH_DAILY_COMPLETED_STATUS adds a key-value pair for completed and adds it to the daily value
+
+
+const dailiesCompletedStatus = (state = [], action) => {
+  console.log(state, action)
+  switch(action.type){
+    case FETCH_DAILY_COMPLETED_STATUS:
       return action.payload
     default:
       return state
@@ -23,7 +34,7 @@ const dailies = (state = [], action) => {
 }
 
 const rootReducer = combineReducers({
-    dailies,
+    dailies, dailiesCompletedStatus,
 });
 
 export default rootReducer;
