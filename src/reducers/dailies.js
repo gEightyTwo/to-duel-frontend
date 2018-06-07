@@ -2,8 +2,7 @@ import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 import {
   FETCH_DAILIES_SUCCESS,
-  FETCH_DAILIES_FAIL,
-  ADD_DAILY,
+  // FETCH_DAILIES_FAIL,
   REMOVE_DAILY,
   START_DUEL,
   ACCEPT_DUEL,
@@ -15,12 +14,11 @@ const dailies = (state = [], action) => {
   switch(action.type){
     case FETCH_DAILIES_SUCCESS:
       return action.payload
-    case ADD_DAILY:
-      return action.payload
     default:
       return state
   }
 }
+
 
 const rootReducer = combineReducers({
     dailies,
