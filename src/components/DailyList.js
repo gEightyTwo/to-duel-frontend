@@ -53,7 +53,7 @@ class DailyList extends React.Component {
       <ListGroup>
         <ListGroupItem
           className="justify-content-between">
-          <h2> DAILIES </h2>
+          <div className="columnTitles"> Dailies </div>
         </ListGroupItem>
         {Dailies}
         <form

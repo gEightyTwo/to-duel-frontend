@@ -32,7 +32,7 @@ class App extends React.Component {
               <DailyList />
             </Col>
             <Col xs="12" md="6">
-              <h2>Duels!</h2>
+              <div className="columnTitles">Duels!</div>
             </Col>
           </Row>
         </Container>
