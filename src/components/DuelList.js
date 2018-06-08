@@ -26,7 +26,7 @@ class DuelList extends React.Component {
       this.props.fetchDuels(this.props.authState.id)
     }
   }
-  
+
   render () {
   const duelsData = this.props.duels.duels
   const Duels = duelsData.map(duel => {
@@ -44,7 +44,7 @@ class DuelList extends React.Component {
         <ListGroup>
           <ListGroupItem
             className="justify-content-between">
-            <h2> DUELS! </h2>
+            <div className="columnTitles"> Duels! </div>
           </ListGroupItem>
           {Duels}
           <DuelButton />

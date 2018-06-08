@@ -4,8 +4,7 @@ import { ListGroup, ListGroupItem, ListGroupItemText, ListGroupItemHeading, Badg
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { fetchDuel } from '../actions/duels';
-import { Container, Row, Col, Card, CardImg, CardText, CardBody,
-  CardTitle, CardSubtitle } from 'reactstrap';
+import { Container, Row, Col, Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle, CardHeader, CardFooter, Alert } from 'reactstrap';
 import withAuthentication from '../helpers/withAuthentication'
 
 //this.state.duel is not this.props.duel. props contains a list of duels. state contains daily data about the duel in questions.
@@ -14,15 +13,53 @@ class Duel extends React.Component {
   constructor(props) {
     super(props)
     this.state={
-      duel: []
+      duel: [],
+      user: {},
+      opponent: {}
     }
   }
 
   fetchDuel = (userId, duelId) => {
-    request(`/users/${userId}/duels/${duelId}`)                                   //CHANGE ME
+    request(`/users/${userId}/duels/${duelId}`)
     .then((response) => {
-      console.log(response)
-      this.setState({duel: response.data.data})
+      console.log('Response: ', response);
+      let userDailies= [];
+      let opponentDailies= []
+      let userDailyCounts= [0,0,0]
+      let opponentDailyCounts= [0,0,0]
+
+      if (this.props.userId === response.data.data.u1_id){
+        response.data.data.user1_dailies.map(daily=> {
+            userDailies.push(daily.name)
+          daily.history.map(ele=> {
+            let index = userDailies.indexOf(daily.name)
+            if(ele.completed === true) userDailyCounts[index]++
+          })
+        })
+        response.data.data.user2_dailies.map(daily=> {
+          opponentDailies.push(daily.name)
+          daily.history.map(ele=> {
+            let index = opponentDailies.indexOf(daily.name)
+            if(ele.completed === true) opponentDailyCounts[index]++
+          })
+        })
+      } else {
+        response.data.data.user2_dailies.map(daily=> {
+          userDailies.push(daily.name)
+          daily.history.map(ele => {
+            let index = userDailies.indexOf(daily.name)
+            if(ele.completed === true) userDailyCounts[index]++
+          })
+        })
+        response.data.data.user1_dailies.map(daily=> {
+          opponentDailies.push(daily.name)
+          daily.history.map(ele => {
+            let index = opponentDailies.indexOf(daily.name)
+            if(ele.completed === true) opponentDailyCounts[index]++
+          })
+        })
+      }
+      this.setState({duel: response.data.data, user:{userDailies, userDailyCounts}, opponent:{opponentDailies, opponentDailyCounts}}, )
     })
   }
 
@@ -53,66 +90,46 @@ class Duel extends React.Component {
     const userName = this.props.authState.name
     const opponentName = this.props.duel.u1_name === this.props.authState.name ? this.props.duel.u2_name : this.props.duel.u1_name
 
-    let userDailies = []
-    let opponentDailies = []
-
-    let userDailyCounts = [0,0,0]
-    let opponentDailyCounts = [0,0,0]
-
-    if(this.state.duel.user1_dailies) {
-      if (this.props.userId === this.state.duel.u1_id){
-        this.state.duel.user1_dailies.forEach(daily=> {
-          userDailies.push(daily.name)
-          // console.log('LOOK AT ME: ', daily)
-          daily.history.forEach(ele=> {
-            let index = userDailies.indexOf(daily.name)
-            if(ele.completed === true) userDailyCounts[index]+1
-          })
-        })
-        this.state.duel.user2_dailies.forEach(daily=> opponentDailies.push(daily.name))
-      } else {
-        this.state.duel.user2_dailies.forEach(daily=> userDailies.push(daily.name))
-        this.state.duel.user1_dailies.forEach(daily=> opponentDailies.push(daily.name))
-      }
-    }
 
     console.log('HAMBRUGARZ: ', this.props.duel)
-    console.log('KITTENS: ', this.state.duel)
+    console.log('KITTENS: ', Date.parse(this.props.duel.end_time), Date.parse(new Date()))
 
     return (
       <ListGroupItem
         className="justify-content-between">
         <ListGroupItemHeading>
-          {opponentName}
-          <Badge pill>'KITTENS'</Badge>
+          {opponentName} {Date.parse(this.props.duel.end_time) < Date.parse(new Date()) ? <Badge color='dark' pill> Duel Finished</Badge>: null}
         </ListGroupItemHeading>
         <ListGroupItemText>
           <Container>
             <Row>
               <Col xs="6" md="6">
                 <Card>
-                  <CardTitle>Your Dailies:</CardTitle>
-                  <CardText>
-                    <ListGroup>
-                      <ListGroupItem>-{userDailies[0]} <Badge pill>{userDailyCounts[0]}/5</Badge></ListGroupItem>
-                      <ListGroupItem>-{userDailies[1]} <Badge pill>{userDailyCounts[1]}/5</Badge></ListGroupItem>
-                      <ListGroupItem>-{userDailies[2]} <Badge pill>{userDailyCounts[2]}/5</Badge></ListGroupItem>
-                    </ListGroup>
-                  </CardText>
+                  <CardHeader><Badge pill>{this.state.user.userDailies ? this.state.user.userDailyCounts.reduce((acc, val)=> acc + val ) : null}/15</Badge> Your Dailies:</CardHeader>
+                  {/* <CardBody> */}
+                    <CardText>
+                      <ListGroup>
+                        <ListGroupItem>{this.state.user.userDailies ? this.state.user.userDailies[0]: null} <Badge color='info' pill>{this.state.user.userDailies ? this.state.user.userDailyCounts[0]: null}/5</Badge></ListGroupItem>
+                        <ListGroupItem>{this.state.user.userDailies ? this.state.user.userDailies[1]: null} <Badge color='info' pill>{this.state.user.userDailies ? this.state.user.userDailyCounts[1]: null}/5</Badge></ListGroupItem>
+                        <ListGroupItem>{this.state.user.userDailies ? this.state.user.userDailies[2]: null} <Badge color='info' pill>{this.state.user.userDailies ? this.state.user.userDailyCounts[2]: null}/5</Badge></ListGroupItem>
+                      </ListGroup>
+                    </CardText>
+                  {/* </CardBody> */}
                 </Card>
               </Col>
               <Col xs="6" md="6">
                 <Card>
-                  <CardTitle>{opponentName} Dailies:</CardTitle>
+                  <CardHeader><Badge pill>{this.state.opponent.opponentDailies ? this.state.opponent.opponentDailyCounts.reduce((acc, val)=> acc + val ) : null}/15</Badge> {opponentName} Dailies:</CardHeader>
                   <CardText>
                     <ListGroup>
-                      <ListGroupItem>-{opponentDailies[0]} <Badge pill>1/5</Badge></ListGroupItem>
-                      <ListGroupItem>-{opponentDailies[1]} <Badge pill>3/5</Badge></ListGroupItem>
-                      <ListGroupItem>-{opponentDailies[2]} <Badge pill>5/5</Badge></ListGroupItem>
+                      <ListGroupItem>{this.state.opponent.opponentDailies ? this.state.opponent.opponentDailies[0]: null} <Badge color='info' pill>{this.state.opponent.opponentDailies ? this.state.opponent.opponentDailyCounts[0]: null}/5</Badge></ListGroupItem>
+                      <ListGroupItem>{this.state.opponent.opponentDailies ? this.state.opponent.opponentDailies[1]: null} <Badge color='info' pill>{this.state.opponent.opponentDailies ? this.state.opponent.opponentDailyCounts[1]: null}/5</Badge></ListGroupItem>
+                      <ListGroupItem>{this.state.opponent.opponentDailies ? this.state.opponent.opponentDailies[2]: null} <Badge color='info' pill>{this.state.opponent.opponentDailies ? this.state.opponent.opponentDailyCounts[2]: null}/5</Badge></ListGroupItem>
                     </ListGroup>
                   </CardText>
                 </Card>
               </Col>
+              {(this.state.user.userDailyCounts && this.state.user.userDailyCounts.reduce((acc, val)=> acc + val ) > this.state.opponent.opponentDailyCounts.reduce((acc, val)=> acc + val )) && (Date.parse(this.props.duel.end_time) < Date.parse(new Date())) ? <Alert color="success">You Won!</Alert> : null }
             </Row>
           </Container>
         </ListGroupItemText>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { ListGroup, ListGroupItem, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { ListGroupItem, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import { bindActionCreators } from 'redux';
 import Duel from './Duel'
 import { fetchDuels, addDuel, fetchDuel } from '../actions/duels';
@@ -17,7 +17,6 @@ class DuelButton extends React.Component {
       // dailiesSelected
     };
     this.toggle = this.toggle.bind(this);
-    this.toggleNested = this.toggleNested.bind(this);
     this.toggleAll = this.toggleAll.bind(this);
   }
 
@@ -41,36 +40,42 @@ class DuelButton extends React.Component {
       });
     }
   render () {
-    console.log(this.props)
-    // const {id, name, streak, users_id, archived} = this.props.daily
+
     return (
       <div>
-        <Button color="info" onClick={this.toggle}>New Duel</Button>{' '}
-          <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-            <ModalHeader toggle={this.toggle}>PREPARE YOUR DUEL</ModalHeader>
-            <ModalBody>
-
-              <br />
-              <Button color="success" onClick={this.toggleNested}>Select Dailies</Button>
-              <Modal isOpen={this.state.nestedModal} toggle={this.toggleNested} onClosed={this.state.closeAll ? this.toggle : undefined}>
-                <ModalHeader>Nested Modal title</ModalHeader>
-                <ModalBody>
-                  <ListGroupItem
-                    className="justify-content-between">
-                      {/* {this.props.daily.name} */}
-                  </ListGroupItem>
-                </ModalBody>
-                <ModalFooter>
-                  <Button color="primary" onClick={this.toggleNested}>Done</Button>{' '}
-                  <Button color="secondary" onClick={this.toggleAll}>All Done</Button>
-                </ModalFooter>
-              </Modal>
-            </ModalBody>
-            <ModalFooter>
-              <Button color="danger" onClick={this.toggle}>Demand Satisfaction!</Button>{' '}
-              <Button color="secondary" onClick={this.toggle}>Cancel</Button>
-            </ModalFooter>
-          </Modal>
+        <Button color="info" onClick={this.toggle}>New Duel</Button>
+        <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+          <ModalHeader toggle={this.toggle}>Duel Settings</ModalHeader>
+          <ModalBody>
+            <Form>
+              <FormGroup>
+                <Label for="exampleSelect">Who has besmearched your honor?</Label>
+                <Input type="select" name="select" id="exampleSelect">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </Input>
+              </FormGroup>
+              <FormGroup>
+                <Label for="exampleSelectMulti">Select Three Dailies</Label>
+                <Input type="select" name="selectMulti" id="exampleSelectMulti" multiple>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </Input>
+              </FormGroup>
+              <Button>Submit</Button>
+            </Form>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="danger" onClick={this.toggle}>Demand Satisfaction!</Button>{' '}
+            <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+          </ModalFooter>
+        </Modal>
       </div>
     )
   }
