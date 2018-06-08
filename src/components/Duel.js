@@ -50,16 +50,25 @@ class Duel extends React.Component {
       u1_confirmed,
       u1_id
     } = this.props.duel
-    console.log('HAMBRUGARZ: ', this.props)
     const userName = this.props.authState.name
     const opponentName = this.props.duel.u1_name === this.props.authState.name ? this.props.duel.u2_name : this.props.duel.u1_name
 
     let userDailies = []
     let opponentDailies = []
 
+    let userDailyCounts = [0,0,0]
+    let opponentDailyCounts = [0,0,0]
+
     if(this.state.duel.user1_dailies) {
       if (this.props.userId === this.state.duel.u1_id){
-        this.state.duel.user1_dailies.forEach(daily=> userDailies.push(daily.name))
+        this.state.duel.user1_dailies.forEach(daily=> {
+          userDailies.push(daily.name)
+          // console.log('LOOK AT ME: ', daily)
+          daily.history.forEach(ele=> {
+            let index = userDailies.indexOf(daily.name)
+            if(ele.completed === true) userDailyCounts[index]+1
+          })
+        })
         this.state.duel.user2_dailies.forEach(daily=> opponentDailies.push(daily.name))
       } else {
         this.state.duel.user2_dailies.forEach(daily=> userDailies.push(daily.name))
@@ -67,11 +76,9 @@ class Duel extends React.Component {
       }
     }
 
+    console.log('HAMBRUGARZ: ', this.props.duel)
+    console.log('KITTENS: ', this.state.duel)
 
-    let duelNum = Object.keys(this.state.duel)
-    console.log('KITTENS: ', !!this.state.duel.user1_dailies)
-    // this.state.duel.forEach(duelUserCheck=>
-    //   if(duelUserCheck.))
     return (
       <ListGroupItem
         className="justify-content-between">
@@ -87,9 +94,9 @@ class Duel extends React.Component {
                   <CardTitle>Your Dailies:</CardTitle>
                   <CardText>
                     <ListGroup>
-                      <ListGroupItem>-{userDailies[0]} <Badge pill>1/5</Badge></ListGroupItem>
-                      <ListGroupItem>-{userDailies[1]} <Badge pill>3/5</Badge></ListGroupItem>
-                      <ListGroupItem>-{userDailies[2]} <Badge pill>5/5</Badge></ListGroupItem>
+                      <ListGroupItem>-{userDailies[0]} <Badge pill>{userDailyCounts[0]}/5</Badge></ListGroupItem>
+                      <ListGroupItem>-{userDailies[1]} <Badge pill>{userDailyCounts[1]}/5</Badge></ListGroupItem>
+                      <ListGroupItem>-{userDailies[2]} <Badge pill>{userDailyCounts[2]}/5</Badge></ListGroupItem>
                     </ListGroup>
                   </CardText>
                 </Card>
