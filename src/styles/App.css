@@ -53,3 +53,12 @@ div.jumbotron{
   color: white;
   margin-top: 10px;
 }
+
+.columnTitles{
+  font-family: 'IM Fell English SC', serif;
+  font-size: 3rem;
+}
+
+ul {
+  opacity: 0.7;
+}
