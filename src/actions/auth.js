@@ -62,7 +62,7 @@ export const userSignup = (newUser, history) => (
 
 export const getUser = () => (
   dispatch => {
-    request('/auth/token')
+    return request('/auth/token')
     .then(response => {
       dispatch({
         type: GET_USER,

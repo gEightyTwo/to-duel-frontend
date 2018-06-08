@@ -4,7 +4,6 @@ import AuthenticationService from './AuthenticationService'
 class AuthenticationWrapper extends Component{
   constructor(props){
     super(props)
-
     this.state = {
       authState: null,
       authStatePending: true

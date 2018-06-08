@@ -6,7 +6,8 @@ import { bindActionCreators } from 'redux';
 // import { getUser } from './actions/auth'
 import { fetchDailies } from './actions/dailies';
 import { fetchDuels } from './actions/duels';
-import { AuthenticatedRoute } from './helpers';
+import { AuthenticatedRoute } from './helpers'
+import withAuthentication from './helpers/withAuthentication'
 
 import './styles/App.css';
 import Header from './components/Header';
@@ -16,9 +17,7 @@ import DuelList from './components/DuelList';
 
 class App extends React.Component {
   componentDidMount = () => {
-    this.props.fetchDailies()
-    this.props.fetchDuels()
-    console.log('load')
+
   }
   render() {
     return (
@@ -35,7 +34,6 @@ class App extends React.Component {
               <DailyList />
             </Col>
             <Col xs="12" md="6">
-              <h2>Duels!</h2>
               <DuelList />
             </Col>
           </Row>
@@ -53,4 +51,4 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({fetchDailies, fetchDuels}, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default withAuthentication(connect(mapStateToProps, mapDispatchToProps)(App))

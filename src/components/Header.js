@@ -24,7 +24,6 @@ class Header extends React.Component {
               <Col md="9">
               </Col>
             </Row>
-          {/* <img class="banner" src={banner} alt="To Duel" /> */}
         </Container>
         </Jumbotron>
 

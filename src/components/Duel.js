@@ -1,15 +1,118 @@
 import React from 'react';
-import { ListGroup, ListGroupItem, Badge } from 'reactstrap';
+import request from '../helpers/request';
+import { ListGroup, ListGroupItem, ListGroupItemText, ListGroupItemHeading, Badge } from 'reactstrap';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { fetchDuel } from '../actions/duels';
+import { Container, Row, Col, Card, CardImg, CardText, CardBody,
+  CardTitle, CardSubtitle } from 'reactstrap';
+import withAuthentication from '../helpers/withAuthentication'
 
-const Duel = (props) => {
-  console.log('DUEL: ', props.duels)
-  // const { u1_id, u2_id} = props.duel
-  return (
-    <ListGroupItem>
-      {/* className="justify-content-between">{u1_id} */}
-      <Badge pill>'KITTENS'</Badge>
-    </ListGroupItem>
-  )
+//this.state.duel is not this.props.duel. props contains a list of duels. state contains daily data about the duel in questions.
+
+class Duel extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state={
+      duel: []
+    }
+  }
+
+  fetchDuel = (userId, duelId) => {
+    request(`/users/${userId}/duels/${duelId}`)                                   //CHANGE ME
+    .then((response) => {
+      console.log(response)
+      this.setState({duel: response.data.data})
+    })
+  }
+
+  // Mounting Methods
+  componentDidMount = async () => {
+    if (this.props.authState) {
+      this.fetchDuel(this.props.authState.id, this.props.duel.id)
+    }
+  }
+
+  componentDidUpdate = async (prevProps, prevState) => {
+    if(prevProps.authState !== this.props.authState){
+      this.fetchDuel(this.props.authState.id, this.props.duel.id)
+    }
+  }
+
+  render () {
+    const {
+      opponent_name,
+      archived,
+      created_at,
+      endTime,
+      id,
+      startTime,
+      u1_confirmed,
+      u1_id
+    } = this.props.duel
+    console.log('HAMBRUGARZ: ', this.props)
+    const userName = this.props.authState.name
+    const opponentName = this.props.duel.u1_name === this.props.authState.name ? this.props.duel.u2_name : this.props.duel.u1_name
+
+    let userDailies = []
+    let opponentDailies = []
+
+    if(this.state.duel.user1_dailies) {
+      if (this.props.userId === this.state.duel.u1_id){
+        this.state.duel.user1_dailies.forEach(daily=> userDailies.push(daily.name))
+        this.state.duel.user2_dailies.forEach(daily=> opponentDailies.push(daily.name))
+      } else {
+        this.state.duel.user2_dailies.forEach(daily=> userDailies.push(daily.name))
+        this.state.duel.user1_dailies.forEach(daily=> opponentDailies.push(daily.name))
+      }
+    }
+
+
+    let duelNum = Object.keys(this.state.duel)
+    console.log('KITTENS: ', !!this.state.duel.user1_dailies)
+    // this.state.duel.forEach(duelUserCheck=>
+    //   if(duelUserCheck.))
+    return (
+      <ListGroupItem
+        className="justify-content-between">
+        <ListGroupItemHeading>
+          {opponentName}
+          <Badge pill>'KITTENS'</Badge>
+        </ListGroupItemHeading>
+        <ListGroupItemText>
+          <Container>
+            <Row>
+              <Col xs="6" md="6">
+                <Card>
+                  <CardTitle>Your Dailies:</CardTitle>
+                  <CardText>
+                    <ListGroup>
+                      <ListGroupItem>-{userDailies[0]} <Badge pill>1/5</Badge></ListGroupItem>
+                      <ListGroupItem>-{userDailies[1]} <Badge pill>3/5</Badge></ListGroupItem>
+                      <ListGroupItem>-{userDailies[2]} <Badge pill>5/5</Badge></ListGroupItem>
+                    </ListGroup>
+                  </CardText>
+                </Card>
+              </Col>
+              <Col xs="6" md="6">
+                <Card>
+                  <CardTitle>{opponentName} Dailies:</CardTitle>
+                  <CardText>
+                    <ListGroup>
+                      <ListGroupItem>-{opponentDailies[0]} <Badge pill>1/5</Badge></ListGroupItem>
+                      <ListGroupItem>-{opponentDailies[1]} <Badge pill>3/5</Badge></ListGroupItem>
+                      <ListGroupItem>-{opponentDailies[2]} <Badge pill>5/5</Badge></ListGroupItem>
+                    </ListGroup>
+                  </CardText>
+                </Card>
+              </Col>
+            </Row>
+          </Container>
+        </ListGroupItemText>
+      </ListGroupItem>
+    )
+  }
 }
 
-export default Duel
+
+export default withAuthentication(Duel);
