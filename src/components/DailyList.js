@@ -25,7 +25,13 @@ class DailyList extends React.Component {
 
 
   render () {
-    const dailiesData = this.props.dailies.dailies
+    const dailiesData = this.props.dailies.dailies.sort(function(a, b){
+      // Compare the 2 dates
+      if(a.id < b.id) return -1;
+      if(a.id > b.id) return 1;
+      return 0;
+    })
+
     console.log(dailiesData)
     const Dailies = dailiesData.map(daily => {
       return (
@@ -54,7 +60,9 @@ class DailyList extends React.Component {
           style={formStyle}
           onSubmit={(event)=>{
             event.preventDefault()
-            this.props.addDaily(event.target.name.value,this.props.authState.id)}}
+            this.props.addDaily(event.target.name.value,this.props.authState.id)
+            event.target.name.value=''
+            }}
           >
           <input type="text" name="name" />
           <Button color="info"

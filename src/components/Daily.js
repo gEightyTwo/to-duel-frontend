@@ -85,28 +85,50 @@ class Daily extends React.Component {
     const completedDailyStyle = {
       fontWeight: 'bold',
     }
-    console.log(!this.state.completed)
+
+    const iconContainerStyle = {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    }
+
+    const deleteIcon = {
+      fontSize: '1.5em',
+      color: '#8F0000'
+    }
+
     return (
       <ListGroupItem
         style={dailyStyle}
-        onClick={()=>{
-          this.handleCheck(users_id, id, !this.state.completed)
-        }}
         >
           {!this.state.completed ?
             <FontAwesome
               name='square-o'
               size='2x'
+              onClick={()=>{
+                this.handleCheck(users_id, id, !this.state.completed)
+              }}
             /> :
             <FontAwesome
               name='check-square'
               size='2x'
+              onClick={()=>{
+                this.handleCheck(users_id, id, !this.state.completed)
+              }}
             />
           }
           <div style={!this.state.completed ? completedDailyStyle: null}>
             {name}
           </div>
-          <Badge pill>{this.state.streak}</Badge>
+          <div style={iconContainerStyle}>
+            <Badge pill>{this.state.streak}</Badge>
+            <FontAwesome
+              name='remove'
+              color='red'
+              style={deleteIcon}
+              onClick={() => console.log(id)}
+            />
+          </div>
         </ListGroupItem>
       )
   }
