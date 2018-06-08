@@ -26,16 +26,18 @@ class App extends React.Component {
             <Route path="/login" component={Login} />
           </Switch>
         </BrowserRouter>
-        <Container>
-          <Row>
-            <Col xs="12" md="6">
-              <DailyList />
-            </Col>
-            <Col xs="12" md="6">
-              <div className="columnTitles">Duels!</div>
-            </Col>
-          </Row>
-        </Container>
+        {this.props.authState ?
+          <Container>
+            <Row>
+              <Col xs="12" md="6">
+                <DailyList />
+              </Col>
+              <Col xs="12" md="6">
+                <div className="columnTitles">Duels!</div>
+              </Col>
+            </Row>
+          </Container>
+        : null}
       </div>
     );
   }

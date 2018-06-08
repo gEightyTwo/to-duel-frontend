@@ -98,6 +98,7 @@ class Daily extends React.Component {
     return (
       <ListGroupItem
         style={dailyStyle}
+        color={this.state.completed?'success' : null}
         >
           {!this.state.completed ?
             <FontAwesome
@@ -122,7 +123,6 @@ class Daily extends React.Component {
             <Badge pill>{this.state.streak}</Badge>
             <FontAwesome
               name='remove'
-              color='red'
               style={deleteIcon}
               onClick={() => {
                 console.log(`delete ${id}`)

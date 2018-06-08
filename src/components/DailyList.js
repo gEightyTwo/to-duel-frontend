@@ -56,18 +56,20 @@ class DailyList extends React.Component {
           <div className="columnTitles"> Dailies </div>
         </ListGroupItem>
         {Dailies}
-        <form
-          style={formStyle}
-          onSubmit={(event)=>{
-            event.preventDefault()
-            this.props.addDaily(event.target.name.value,this.props.authState.id)
-            event.target.name.value=''
-            }}
-          >
-          <input type="text" name="name" />
-          <Button color="info"
-            > New Daily</Button>
-        </form>
+        <ListGroupItem>
+          <form
+            style={formStyle}
+            onSubmit={(event)=>{
+              event.preventDefault()
+              this.props.addDaily(event.target.name.value,this.props.authState.id)
+              event.target.name.value=''
+              }}
+            >
+            <input type="text" name="name" />
+            <Button color="info"
+              > New Daily</Button>
+          </form>
+        </ListGroupItem>
       </ListGroup>
     )
   }
