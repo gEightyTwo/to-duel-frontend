@@ -32,21 +32,27 @@ class Daily extends React.Component {
     request(`/users/${userId}/dailies/${dailyId}/dailyHistory`, 'post', {completed: completed})
     .then((response) => {
       console.log(response)
-      this.fetchCompletedStatus(userId, dailyId)
-      return request(`/users/${userId}/dailies/${dailyId}/dailyHistory/streak`, 'get')
-    })
-    .then((response) => {
-      this.setState({streak: response.data.data})
-    })
 
+      this.fetchCompletedStatus(userId, dailyId)
+    })
+    .then(response => {
+      this.fetchStreak(userId, dailyId)
+    })
   }
 
   fetchStreak = (userId, dailyId) => {
-    console.log(dailyId)
-    request(`/users/${userId}/dailies/${dailyId}/dailyHistory/streak`, 'get')
+    request(`/users/${userId}/dailies/${dailyId}/dailyHistory/streak`, 'patch')
     .then((response) => {
-      console.log(response.data.data)
-      this.setState({streak: response.data.data})
+      if(response.data.data===0) {
+        return request(`/users/${userId}/dailies/${dailyId}/dailyHistory/streak`, 'patch', {daysAgo: 1})
+      } else {
+        return response
+      }
+    })
+    .then((response) => {
+      if(response) {
+        this.setState({streak: response.data.data})
+      }
     })
     .then((response) => {
       this.fetchCompletedStatus(userId, dailyId)
@@ -59,7 +65,6 @@ class Daily extends React.Component {
   componentDidMount = async () => {
     this.fetchStreak(this.props.daily.users_id, this.props.daily.id)
     this.fetchCompletedStatus(this.props.daily.users_id, this.props.daily.id)
-
   }
 
   componentDidUpdate = async (prevProps, prevState) => {
