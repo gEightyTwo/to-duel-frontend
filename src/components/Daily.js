@@ -13,9 +13,9 @@ class Daily extends React.Component {
     super(props)
 
     this.state={
-      completed: ''
+      completed: '',
+      streak: 0,
     }
-
   }
 
   fetchCompletedStatus = (userId, dailyId) => {
@@ -28,16 +28,38 @@ class Daily extends React.Component {
   }
 
   handleCheck = (userId, dailyId, completed) => {
+    console.log(completed)
     request(`/users/${userId}/dailies/${dailyId}/dailyHistory`, 'post', {completed: completed})
+    .then((response) => {
+      console.log(response)
+      this.fetchCompletedStatus(userId, dailyId)
+      return request(`/users/${userId}/dailies/${dailyId}/dailyHistory/streak`, 'get')
+    })
+    .then((response) => {
+      this.setState({streak: response.data.data})
+    })
+
+  }
+
+  fetchStreak = (userId, dailyId) => {
+    console.log(dailyId)
+    request(`/users/${userId}/dailies/${dailyId}/dailyHistory/streak`, 'get')
+    .then((response) => {
+      console.log(response.data.data)
+      this.setState({streak: response.data.data})
+    })
     .then((response) => {
       this.fetchCompletedStatus(userId, dailyId)
     })
   }
 
+
   // Mounting Methods
 
   componentDidMount = async () => {
+    this.fetchStreak(this.props.daily.users_id, this.props.daily.id)
     this.fetchCompletedStatus(this.props.daily.users_id, this.props.daily.id)
+
   }
 
   componentDidUpdate = async (prevProps, prevState) => {
@@ -58,11 +80,10 @@ class Daily extends React.Component {
     const completedDailyStyle = {
       fontWeight: 'bold',
     }
-    console.log(this.state)
+    console.log(!this.state.completed)
     return (
       <ListGroupItem
         style={dailyStyle}
-        // color= {streak>0 ? 'success' : null}
         onClick={()=>{
           this.handleCheck(users_id, id, !this.state.completed)
         }}
@@ -80,7 +101,7 @@ class Daily extends React.Component {
           <div style={!this.state.completed ? completedDailyStyle: null}>
             {name}
           </div>
-          <Badge pill>{streak}</Badge>
+          <Badge pill>{this.state.streak}</Badge>
         </ListGroupItem>
       )
   }
