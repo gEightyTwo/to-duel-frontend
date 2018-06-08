@@ -1,9 +1,6 @@
 import request from '../helpers/request';
 
 export const FETCH_DAILIES_SUCCESS = 'FETCH_DAILIES_SUCCESS';
-// export const START_DUEL = 'START_DUEL';
-// export const ACCEPT_DUEL = 'ACCEPT_DUEL';
-// export const CONFIRM_DUEL = 'CONFIRM_DUEL';
 
 export const fetchDailies = (id) => (
   dispatch => {
@@ -40,21 +37,3 @@ export const deleteDaily = (userId, dailyId) => (
     })
   }
 );
-
-// export const startDuel = () => (
-//   dispatch => {
-//
-//   }
-// );
-//
-// export const acceptDuel = () => (
-//   dispatch => {
-//
-//   }
-// );
-//
-// export const confirmDuel = () => (
-//   dispatch => {
-//
-//   }
-// );
