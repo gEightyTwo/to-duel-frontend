@@ -1,11 +1,13 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter, Switch, Route,
+  // Redirect 
+} from 'react-router-dom';
 import { Container, Row, Col } from 'reactstrap';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 // import { getUser } from './actions/auth'
 import { fetchDailies } from './actions/dailies';
-import { AuthenticatedRoute } from './helpers'
+// import { AuthenticatedRoute } from './helpers'
 import withAuthentication from './helpers/withAuthentication'
 
 import './styles/App.css';
