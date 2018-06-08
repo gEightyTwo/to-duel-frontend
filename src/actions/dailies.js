@@ -1,11 +1,9 @@
 import request from '../helpers/request';
 
 export const FETCH_DAILIES_SUCCESS = 'FETCH_DAILIES_SUCCESS';
-export const REMOVE_DAILY = 'REMOVE_DAILY';
-
-export const START_DUEL = 'START_DUEL';
-export const ACCEPT_DUEL = 'ACCEPT_DUEL';
-export const CONFIRM_DUEL = 'CONFIRM_DUEL';
+// export const START_DUEL = 'START_DUEL';
+// export const ACCEPT_DUEL = 'ACCEPT_DUEL';
+// export const CONFIRM_DUEL = 'CONFIRM_DUEL';
 
 export const fetchDailies = (id) => (
   dispatch => {
@@ -25,35 +23,38 @@ export const addDaily = (name, userId) => (
   }
 );
 
-export const handleCheck = (userId, dailyId, completed) => (
+// export const handleCheck = (userId, dailyId, completed) => (
+//   dispatch => {
+//     request(`/users/${userId}/dailies/${dailyId}/dailyHistory`, 'post', {completed})
+//     .then((response) => {
+//       dispatch(fetchDailies(userId))
+//     })
+//   }
+// );
+
+export const deleteDaily = (userId, dailyId) => (
   dispatch => {
-    request(`/users/${userId}/dailies/${dailyId}/dailyHistory`, 'post', {completed})
+    request(`/users/${userId}/dailies/${dailyId}`, 'patch', {archived: true})
     .then((response) => {
       dispatch(fetchDailies(userId))
     })
   }
 );
 
-export const removeDaily = () => (
-  dispatch => {
-
-  }
-);
-
-export const startDuel = () => (
-  dispatch => {
-
-  }
-);
-
-export const acceptDuel = () => (
-  dispatch => {
-
-  }
-);
-
-export const confirmDuel = () => (
-  dispatch => {
-
-  }
-);
+// export const startDuel = () => (
+//   dispatch => {
+//
+//   }
+// );
+//
+// export const acceptDuel = () => (
+//   dispatch => {
+//
+//   }
+// );
+//
+// export const confirmDuel = () => (
+//   dispatch => {
+//
+//   }
+// );
