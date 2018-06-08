@@ -4,7 +4,6 @@ import AuthenticationService from './AuthenticationService'
 class AuthenticationWrapper extends Component{
   constructor(props){
     super(props)
-    console.log('inside of auth wrapper')
     this.state = {
       authState: null,
       authStatePending: true
@@ -13,7 +12,6 @@ class AuthenticationWrapper extends Component{
 
   handleAuthState = (authState) => {
     this.setState({ authState, authStatePending: false})
-    console.log('authState exists!')
   }
 
   componentWillMount(){
