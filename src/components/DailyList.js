@@ -6,7 +6,6 @@ import Daily from './Daily'
 import 'bootstrap/dist/css/bootstrap.css'
 
 import { fetchDailies, addDaily } from '../actions/dailies';
-import { getUser } from '../actions/auth';
 import withAuthentication from '../helpers/withAuthentication'
 
 class DailyList extends React.Component {
@@ -26,8 +25,16 @@ class DailyList extends React.Component {
     }
   }
 
+
   render () {
-    const dailiesData = this.props.dailies.dailies
+    const dailiesData = this.props.dailies.dailies.sort(function(a, b){
+      // Compare the 2 dates
+      if(a.id < b.id) return -1;
+      if(a.id > b.id) return 1;
+      return 0;
+    })
+
+    console.log(dailiesData)
     const Dailies = dailiesData.map(daily => {
       return (
         <Daily
@@ -37,16 +44,32 @@ class DailyList extends React.Component {
       )
     })
 
+    console.log(this.props)
+
+    const formStyle = {
+      display: 'flex',
+      justifyContent: 'space-evenly',
+      alignItems: 'center',
+    }
     return (
       <ListGroup>
         <ListGroupItem
           className="justify-content-between">
-          <h2> DAILIES </h2>
+          <div className="columnTitles"> Dailies </div>
         </ListGroupItem>
         {Dailies}
-        <Button color="info"
-          // onClick={()=>{this.props.addDaily('New Name',this.props.authState.id)}}
-          >Add Daily</Button>{' '}
+        <form
+          style={formStyle}
+          onSubmit={(event)=>{
+            event.preventDefault()
+            this.props.addDaily(event.target.name.value,this.props.authState.id)
+            event.target.name.value=''
+            }}
+          >
+          <input type="text" name="name" />
+          <Button color="info"
+            > New Daily</Button>
+        </form>
       </ListGroup>
     )
   }
@@ -58,7 +81,7 @@ const mapStateToProps = ({dailies, auth}) => {
 
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({fetchDailies, getUser, addDaily}, dispatch)
+  return bindActionCreators({fetchDailies, addDaily}, dispatch)
 }
 
 export default withAuthentication(connect(mapStateToProps, mapDispatchToProps)(DailyList))

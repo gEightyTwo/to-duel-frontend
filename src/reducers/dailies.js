@@ -1,26 +1,28 @@
 import { combineReducers } from 'redux';
-import { reducer as formReducer } from 'redux-form';
 import {
   FETCH_DAILIES_SUCCESS,
-  FETCH_DAILIES_FAIL,
-  ADD_DAILY,
-  REMOVE_DAILY,
-  START_DUEL,
-  ACCEPT_DUEL,
-  CONFIRM_DUEL,
+  // START_DUEL,
+  // ACCEPT_DUEL,
+  // CONFIRM_DUEL,
 } from '../actions/dailies'
 
+const filterArchivedDailies = (action) => {
+  if(action.payload) {
+    const filteredDailies =  action.payload.filter((daily)=> !daily.archived)
+    return filteredDailies
+  }
+  return action.payload
+}
+
 const dailies = (state = [], action) => {
-  console.log(state, action)
   switch(action.type){
     case FETCH_DAILIES_SUCCESS:
-      return action.payload
-    case ADD_DAILY:
-      return action.payload
+      return filterArchivedDailies(action)
     default:
       return state
   }
 }
+
 
 const rootReducer = combineReducers({
     dailies,

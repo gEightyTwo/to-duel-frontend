@@ -1,10 +1,6 @@
 import request from '../helpers/request';
 
 export const FETCH_DAILIES_SUCCESS = 'FETCH_DAILIES_SUCCESS';
-// export const FETCH_DAILIES_FAIL= 'FETCH_DAILIES_FAIL';
-
-export const ADD_DAILY = 'ADD_DAILY';
-export const REMOVE_DAILY = 'REMOVE_DAILY';
 
 export const fetchDailies = (id) => (
   dispatch => {
@@ -15,18 +11,29 @@ export const fetchDailies = (id) => (
   }
 )
 
-export const addDaily = (name, users_id) => (
+export const addDaily = (name, userId) => (
   dispatch => {
-    request(`/users/${users_id}/dailies`, 'post', {name})
+    request(`/users/${userId}/dailies`, 'post', {name})
     .then((response) => {
-      console.log(response)
-      dispatch({type: ADD_DAILY, payload: response.data.data})
+      dispatch(fetchDailies(userId))
     })
   }
 );
 
-export const removeDaily = () => (
-  dispatch => {
+// export const handleCheck = (userId, dailyId, completed) => (
+//   dispatch => {
+//     request(`/users/${userId}/dailies/${dailyId}/dailyHistory`, 'post', {completed})
+//     .then((response) => {
+//       dispatch(fetchDailies(userId))
+//     })
+//   }
+// );
 
+export const deleteDaily = (userId, dailyId) => (
+  dispatch => {
+    request(`/users/${userId}/dailies/${dailyId}`, 'patch', {archived: true})
+    .then((response) => {
+      dispatch(fetchDailies(userId))
+    })
   }
 );

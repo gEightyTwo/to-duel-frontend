@@ -18,7 +18,7 @@ class Header extends React.Component {
           <Container>
             <Row>
               <Col md="3">
-                <img className="logo" src={bigLogo} />
+                <img className="logo" src={bigLogo} alt='duel_banner'/>
               <h1 className="title">To Duel</h1>
               </Col>
               <Col md="9">
