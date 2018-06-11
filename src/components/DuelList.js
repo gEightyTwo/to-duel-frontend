@@ -39,6 +39,12 @@ class DuelList extends React.Component {
     )
   })
 
+  const formStyle = {
+    display: 'flex',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+  }
+
     return (
       <div>
         <ListGroup>
@@ -47,7 +53,9 @@ class DuelList extends React.Component {
             <div className="columnTitles"> Duels! </div>
           </ListGroupItem>
           {Duels}
-          <DuelButton />
+          <ListGroupItem style={formStyle}>
+            <DuelButton />
+          </ListGroupItem>
         </ListGroup>
       </div>
     )

@@ -13,13 +13,13 @@ class Login extends React.Component {
  };
 
  handleLogin = event => {
-   console.log('email, password?',this.state)
    event.preventDefault();
    this.props.userLogin(this.state, this.props.history);
    this.setState(this.state);
  };
 
  render () {
+
    return (
      <div className="welcome-container">
        <Modal className="welcome-modal" isOpen centered>
@@ -52,7 +52,7 @@ class Login extends React.Component {
              ) : null}
            </ModalBody>
            <ModalFooter>
-             <Button type="submit" color="primary">
+             <Button type="submit" color="info">
                Submit
              </Button>
              <a href="/signup">Not a member?</a>

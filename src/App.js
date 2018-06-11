@@ -1,5 +1,7 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter, Switch, Route,
+  // Redirect
+} from 'react-router-dom';
 import { Container, Row, Col } from 'reactstrap';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -20,6 +22,10 @@ class App extends React.Component {
 
   }
   render() {
+    const columnStyle = {
+      marginTop: '1rem',
+    }
+
     return (
       <div className="App">
         <Header />
@@ -28,16 +34,18 @@ class App extends React.Component {
             <Route path="/login" component={Login} />
           </Switch>
         </BrowserRouter>
-        <Container>
-          <Row>
-            <Col xs="12" md="5">
-              <DailyList />
-            </Col>
-            <Col xs="12" md="7">
-              <DuelList />
-            </Col>
-          </Row>
-        </Container>
+        {this.props.authState ?
+          <Container>
+            <Row>
+              <Col xs="12" md="5" style={columnStyle}>
+                <DailyList />
+              </Col>
+              <Col xs="12" md="7" style={columnStyle}>
+                <DuelList />
+              </Col>
+            </Row>
+          </Container>
+        : null}
       </div>
     );
   }

@@ -24,6 +24,8 @@ const dailies = (state = [], action) => {
 }
 
 
+
+
 const rootReducer = combineReducers({
     dailies,
 });
