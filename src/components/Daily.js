@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { deleteDaily } from '../actions/dailies';
+import { archiveDaily } from '../actions/dailies';
 import request from '../helpers/request';
 import { ListGroupItem, Badge } from 'reactstrap';
 import FontAwesome from 'react-fontawesome'
@@ -126,7 +126,7 @@ class Daily extends React.Component {
               style={deleteIcon}
               onClick={() => {
                 console.log(`delete ${id}`)
-                this.props.deleteDaily(users_id, id)
+                this.props.archiveDaily(users_id, id)
               }}
             />
           </div>
@@ -136,7 +136,7 @@ class Daily extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({deleteDaily}, dispatch)
+  return bindActionCreators({archiveDaily}, dispatch)
 }
 
 export default connect(null, mapDispatchToProps)(Daily)

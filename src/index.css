@@ -4,7 +4,7 @@ body {
   font-family: sans-serif;
   background-image:  url('./assets/foggy_forest.jpeg');
   background-repeat: no-repeat;
-background-attachment: fixed;
+  background-attachment: fixed;
   /* background-color: lightgray; */
   /* opacity: 0.5; */
   /* background-size: cover; */
