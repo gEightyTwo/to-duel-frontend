@@ -1,9 +1,10 @@
 import React from 'react';
+import request from '../helpers/request';
 import { connect } from 'react-redux';
 import { ListGroupItem, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import { bindActionCreators } from 'redux';
 import Duel from './Duel'
-import { fetchDuels, addDuel, fetchDuel } from '../actions/duels';
+import { fetchDuels, addDuel, fetchDuel, fetchOpponents } from '../actions/duels';
 import { getUser } from '../actions/auth';
 import withAuthentication from '../helpers/withAuthentication'
 
@@ -20,27 +21,39 @@ class DuelButton extends React.Component {
     this.toggleAll = this.toggleAll.bind(this);
   }
 
-    toggle() {
-      this.setState({
-        modal: !this.state.modal
-      });
-    }
+  toggle() {
+    this.setState({
+      modal: !this.state.modal
+    });
+  }
 
-    toggleNested() {
-      this.setState({
-        nestedModal: !this.state.nestedModal,
-        closeAll: false
-      });
-    }
+  toggleNested() {
+    this.setState({
+      nestedModal: !this.state.nestedModal,
+      closeAll: false
+    });
+  }
 
-    toggleAll() {
-      this.setState({
-        nestedModal: !this.state.nestedModal,
-        closeAll: true
-      });
-    }
+  toggleAll() {
+    this.setState({
+      nestedModal: !this.state.nestedModal,
+      closeAll: true
+    });
+  }
+
+  componentDidMount = async () => {
+    // if (this.props.authState) {
+      this.props.fetchOpponents()
+    // }
+  }
+
   render () {
-
+    const opponents = this.props.duels.opponentList
+    const duels = opponents.map(opponent => {
+      return (
+        <option>{opponent.first_name} {opponent.last_name}</option>
+      )
+    })
     return (
       <div>
         <Button color="info" onClick={this.toggle}>New Duel</Button>
@@ -51,11 +64,7 @@ class DuelButton extends React.Component {
               <FormGroup>
                 <Label for="exampleSelect">Who has besmearched your honor?</Label>
                 <Input type="select" name="select" id="exampleSelect">
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
+                  {duels}
                 </Input>
               </FormGroup>
               <FormGroup>
@@ -81,12 +90,12 @@ class DuelButton extends React.Component {
   }
 }
 
-const mapStateToProps = ({duels, duelData, auth}) => {
-  return {duels, duelData, auth}
+const mapStateToProps = ({duels, duelData, auth, opponentList}) => {
+  return {duels, duelData, auth, opponentList}
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({fetchDuels, fetchDuel, getUser, addDuel}, dispatch)
+  return bindActionCreators({fetchDuels, fetchDuel, getUser, addDuel, fetchOpponents }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DuelButton);

@@ -90,10 +90,6 @@ class Duel extends React.Component {
     const userName = this.props.authState.name
     const opponentName = this.props.duel.u1_name === this.props.authState.name ? this.props.duel.u2_name : this.props.duel.u1_name
 
-
-    console.log('HAMBRUGARZ: ', this.props.duel)
-    console.log('KITTENS: ', Date.parse(this.props.duel.end_time), Date.parse(new Date()))
-
     return (
       <ListGroupItem
         className="justify-content-between">

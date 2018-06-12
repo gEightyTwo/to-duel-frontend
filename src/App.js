@@ -56,7 +56,7 @@ const mapStateToProps = ( {dailies, duels} ) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({fetchDailies, fetchDuels}, dispatch)
+  return bindActionCreators({fetchDailies, fetchDuels }, dispatch)
 }
 
 export default withAuthentication(connect(mapStateToProps, mapDispatchToProps)(App))

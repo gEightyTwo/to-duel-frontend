@@ -12,9 +12,11 @@ export const START_DUEL = 'START_DUEL';
 export const ACCEPT_DUEL = 'ACCEPT_DUEL';
 export const CONFIRM_DUEL = 'CONFIRM_DUEL';
 
+export const FETCH_OPPONENTS = 'FETCH_OPPONENTS'
+
 export const fetchDuels = (id) => (
   dispatch => {
-    request(`/users/${id}/duels`)                                   //CHANGE ME
+    request(`/users/${id}/duels`)
     .then((response) => {
       console.log(response)
       dispatch({type: FETCH_DUELS_SUCCESS, payload: response.data.data})
@@ -24,10 +26,19 @@ export const fetchDuels = (id) => (
 
 export const fetchDuel = (id, duelId) => (
   dispatch => {
-    request(`/users/${id}/duels/${duelId}`)                                   //CHANGE ME
+    request(`/users/${id}/duels/${duelId}`)
     .then((response) => {
       console.log(response)
       dispatch({type: FETCH_DUEL_SUCCESS, payload: response.data.data})
+    })
+  }
+)
+export const fetchOpponents = () => (
+  dispatch => {
+    request(`/users`)
+    .then((response) => {
+      console.log( response)
+      dispatch({type: FETCH_OPPONENTS, payload: response.data.data})
     })
   }
 )

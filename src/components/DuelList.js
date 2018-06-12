@@ -67,7 +67,7 @@ const mapStateToProps = ({duels, duelData, auth}) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({fetchDuels, fetchDuel, getUser, addDuel}, dispatch)
+  return bindActionCreators({fetchDuels, fetchDuel, getUser, addDuel }, dispatch)
 }
 
 export default withAuthentication(connect(mapStateToProps, mapDispatchToProps)(DuelList));

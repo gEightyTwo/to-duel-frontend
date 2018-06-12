@@ -3,12 +3,7 @@ import { reducer as formReducer } from 'redux-form';
 import {
   FETCH_DUELS_SUCCESS,
   FETCH_DUEL_SUCCESS,
-  FETCH_DUELS_FAIL,
-  ADD_DUEL,
-  REMOVE_DUEL,
-  START_DUEL,
-  ACCEPT_DUEL,
-  CONFIRM_DUEL
+  FETCH_OPPONENTS
 } from '../actions/duels'
 
 const duels = (state = [], action) => {
@@ -31,8 +26,18 @@ const duelData = (state = [], action) => {
   }
 }
 
+const opponentList = (state = [], action) => {
+  console.log('FETCH OPPONENTS: ', state, action)
+  switch(action.type){
+    case FETCH_OPPONENTS:
+      return action.payload
+    default:
+      return state
+  }
+}
+
 const rootReducer = combineReducers({
-    duels, duelData
+    duels, duelData, opponentList
 });
 
 export default rootReducer;
