@@ -22,7 +22,7 @@ class Duel extends React.Component {
   fetchDuel = (userId, duelId) => {
     request(`/users/${userId}/duels/${duelId}`)
     .then((response) => {
-      console.log('Response: ', response);
+      // console.log('Response: ', response);
       let userDailies= [];
       let opponentDailies= []
       let userDailyCounts= [0,0,0]
@@ -91,8 +91,8 @@ class Duel extends React.Component {
     const opponentName = this.props.duel.u1_name === this.props.authState.name ? this.props.duel.u2_name : this.props.duel.u1_name
 
 
-    console.log('HAMBRUGARZ: ', this.props.duel)
-    console.log('KITTENS: ', Date.parse(this.props.duel.end_time), Date.parse(new Date()))
+    // console.log('HAMBRUGARZ: ', this.props.duel)
+    // console.log('KITTENS: ', Date.parse(this.props.duel.end_time), Date.parse(new Date()))
 
     return (
       <ListGroupItem
