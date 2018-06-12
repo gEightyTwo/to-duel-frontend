@@ -9,24 +9,16 @@ import { fetchDailies, addDaily } from '../actions/dailies';
 import withAuthentication from '../helpers/withAuthentication'
 
 class DailyList extends React.Component {
-  constructor (props) {
-    super(props)
-  }
+
   // Mounting Methods
   componentDidMount = async () => {
-    if (this.props.authState) {
-      this.props.fetchDailies(this.props.authState.id)
-    }
+    this.props.fetchDailies(this.props.authState.id)
   }
 
-  componentDidUpdate = async (prevProps, prevState) => {
-    if(prevProps.authState !== this.props.authState){
-      this.props.fetchDailies(this.props.authState.id)
-    }
-  }
 
 
   render () {
+    console.log('DailyList',this.props.dailies)
     const dailiesData = this.props.dailies.dailies.sort(function(a, b){
       // Compare the 2 dates
       if(a.id < b.id) return -1;

@@ -1,12 +1,10 @@
 import { combineReducers } from 'redux';
 import {
   FETCH_DAILIES_SUCCESS,
-  // START_DUEL,
-  // ACCEPT_DUEL,
-  // CONFIRM_DUEL,
+  CHECK,
 } from '../actions/dailies'
 
-const filterArchivedDailies = (action) => {
+const filteredArchivedDailies = (action) => {
   if(action.payload) {
     const filteredDailies =  action.payload.filter((daily)=> !daily.archived)
     return filteredDailies
@@ -17,7 +15,11 @@ const filterArchivedDailies = (action) => {
 const dailies = (state = [], action) => {
   switch(action.type){
     case FETCH_DAILIES_SUCCESS:
-      return filterArchivedDailies(action)
+      return filteredArchivedDailies(action)
+    case CHECK:
+      return state.map(ele =>
+        ele.id === action.payload ?
+        { ...ele, checked: !ele.checked} : {...ele} )
     default:
       return state
   }
