@@ -48,6 +48,7 @@ class DuelButton extends React.Component {
   }
 
   render () {
+    console.log('HELLO: ', this.props)
     const opponents = this.props.duels.opponentList
     const duels = opponents.map(opponent => {
       return (
