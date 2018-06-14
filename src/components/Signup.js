@@ -6,31 +6,24 @@ import { Button, Form, FormGroup, Alert, Input, Modal, ModalBody, ModalFooter } 
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { userLogin, userSignup } from '../actions/auth';
+import { userSignup } from '../actions/auth';
 
-class Login extends React.Component {
+class Signup extends React.Component {
  state = {
-   email: '',
-   password: '',
-   signupForm: false,
    first_name: '',
    last_name: '',
- };
-
- handleLogin = event => {
-   event.preventDefault();
-   console.log('hi');
-   this.props.userLogin(this.state, this.props.history);
-   this.setState(this.state);
+   email: '',
+   password: '',
  };
 
  handleSignup = event => {
    event.preventDefault();
    this.props.userSignup (this.state, this.props.history);
-   // this.setState(this.state);
+   this.setState(this.state);
  }
 
  render () {
+   console.log(this.state.signupForm)
    const nameStyle = {
      display: 'flex',
      justifyContent: 'space-evenly',
@@ -39,40 +32,8 @@ class Login extends React.Component {
    return (
      <div className="welcome-container">
        <Modal className="welcome-modal" isOpen centered>
-         <Form onSubmit={this.handleLogin}>
-           {!this.state.signupForm ? (
+         <Form onSubmit={this.handleSignup}>
            <ModalBody>
-             <FormGroup>
-               <Input
-                 type="email"
-                 name="email"
-                 id="email"
-                 placeholder="Email"
-                 value={this.state.email}
-                 onChange={event => this.setState({email: event.target.value})}
-               />
-             </FormGroup>
-             <FormGroup>
-               <Input
-                 type="password"
-                 name="password"
-                 id="password"
-                 placeholder="Password"
-                 value={this.state.password}
-                 onChange={event => this.setState({password: event.target.value})}
-               />
-             </FormGroup>
-             {this.props.showLoginError ? (
-               <Alert color="danger">
-                 Email or password is incorrect.
-               </Alert>
-             ) : null}
-           </ModalBody>
-         )
-           : (
-             // Signup Form
-           <ModalBody>
-             Create Account
              <FormGroup style={nameStyle}>
                <Input
                  type="first_name"
@@ -111,14 +72,18 @@ class Login extends React.Component {
                  onChange={event => this.setState({password: event.target.value})}
                />
              </FormGroup>
+             {this.props.showSignupError ? (
+               <Alert color="danger">
+                 Please complete all fields.
+               </Alert>
+             ) : null}
            </ModalBody>
-           ) }
            <ModalFooter>
              <Button type="submit" color="info">
-               {this.state.signupForm ? 'Create User' : 'Login'}
+               Create User
              </Button>
-             <a href="/signup">
-              {this.state.signupForm ? 'Already a member?' : 'Not a member?'}
+             <a href="/login">
+                Already a member?
              </a>
            </ModalFooter>
          </Form>
@@ -128,8 +93,10 @@ class Login extends React.Component {
  };
 };
 
-const mapStateToProps = state => ({showLoginError: state.auth.showLoginError});
+const mapStateToProps = state => ({showSignupError: state.auth.showSignupError});
 
-const mapDispatchToProps = dispatch => (bindActionCreators({userLogin, userSignup}, dispatch));
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({userSignup}, dispatch)
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);
