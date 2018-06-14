@@ -3,10 +3,13 @@ import request from '../helpers/request';
 import { connect } from 'react-redux';
 import { ListGroupItem, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import { bindActionCreators } from 'redux';
+import PropTypes from 'prop-types';
+import Select from 'react-select';
 import Duel from './Duel'
+import DuelDailySelector from './DuelDailySelector'
 import { fetchDuels, addDuel, fetchDuel, fetchOpponents } from '../actions/duels';
 import { getUser } from '../actions/auth';
-import withAuthentication from '../helpers/withAuthentication'
+import withAuthentication from '../helpers/withAuthentication';
 
 class DuelButton extends React.Component {
   constructor(props) {
@@ -48,11 +51,17 @@ class DuelButton extends React.Component {
   }
 
   render () {
-    console.log('HELLO: ', this.props)
     const opponents = this.props.duels.opponentList
     const duels = opponents.map(opponent => {
       return (
         <option>{opponent.first_name} {opponent.last_name}</option>
+      )
+    })
+    const dailiesForNewDuel = this.props.dailies.dailies
+    console.log('HELLO: ', dailiesForNewDuel)
+    const dailyList = dailiesForNewDuel.map(daily => {
+      return (
+          <option>{daily.name}</option>
       )
     })
     return (
@@ -69,20 +78,13 @@ class DuelButton extends React.Component {
                 </Input>
               </FormGroup>
               <FormGroup>
-                <Label for="exampleSelectMulti">Select Three Dailies</Label>
-                <Input type="select" name="selectMulti" id="exampleSelectMulti" multiple>
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                </Input>
+                <DuelDailySelector />
               </FormGroup>
               <Button>Submit</Button>
             </Form>
           </ModalBody>
           <ModalFooter>
-            <Button color="danger" onClick={this.toggle}>Demand Satisfaction!</Button>{' '}
+            <Button color={"danger"} onClick={this.toggle}>Demand Satisfaction!</Button>{' '}
             <Button color="secondary" onClick={this.toggle}>Cancel</Button>
           </ModalFooter>
         </Modal>
@@ -91,8 +93,8 @@ class DuelButton extends React.Component {
   }
 }
 
-const mapStateToProps = ({duels, duelData, auth, opponentList}) => {
-  return {duels, duelData, auth, opponentList}
+const mapStateToProps = ({duels, duelData, auth, opponentList, dailies}) => {
+  return {duels, duelData, auth, opponentList, dailies}
 }
 
 const mapDispatchToProps = (dispatch) => {

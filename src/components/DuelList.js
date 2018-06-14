@@ -49,7 +49,7 @@ class DuelList extends React.Component {
       <div>
         <ListGroup>
           <ListGroupItem
-            className="justify-content-between">
+            className="justify-content-between duel-background">
             <div className="columnTitles"> Duels! </div>
           </ListGroupItem>
           {Duels}
