@@ -7,7 +7,6 @@ import {
 } from '../actions/duels'
 
 const duels = (state = [], action) => {
-  console.log(state, action)
   switch(action.type){
     case FETCH_DUELS_SUCCESS:
       return action.payload
@@ -17,7 +16,6 @@ const duels = (state = [], action) => {
 }
 
 const duelData = (state = [], action) => {
-  console.log(state, action)
   switch(action.type){
     case FETCH_DUEL_SUCCESS:
       return action.payload
@@ -27,7 +25,6 @@ const duelData = (state = [], action) => {
 }
 
 const opponentList = (state = [], action) => {
-  console.log('FETCH OPPONENTS: ', state, action)
   switch(action.type){
     case FETCH_OPPONENTS:
       return action.payload

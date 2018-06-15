@@ -54,7 +54,7 @@ class DuelList extends React.Component {
           </ListGroupItem>
           {Duels}
           <ListGroupItem style={formStyle}>
-            <DuelButton />
+            <DuelButton authState={this.props.authState}/>
           </ListGroupItem>
         </ListGroup>
       </div>

@@ -1,12 +1,9 @@
 import React from 'react';
-import request from '../helpers/request';
 import { connect } from 'react-redux';
-import { ListGroupItem, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { ListGroupItem, Button, Modal, ModalHeader, ModalBody, Form, FormGroup, Label, Input } from 'reactstrap';
 import { bindActionCreators } from 'redux';
-import PropTypes from 'prop-types';
-import Select from 'react-select';
-import Duel from './Duel'
-import DuelDailySelector from './DuelDailySelector'
+
+import DuelDailySelector from './DuelDailySelector';
 import { fetchDuels, addDuel, fetchDuel, fetchOpponents } from '../actions/duels';
 import { getUser } from '../actions/auth';
 import withAuthentication from '../helpers/withAuthentication';
@@ -16,12 +13,12 @@ class DuelButton extends React.Component {
     super(props)
     this.state = {
       modal: false,
+      removeSelected: false,
       closeAll: false,
       dailySelector: false,
-      // dailiesSelected
+      value: [],
     };
     this.toggle = this.toggle.bind(this);
-    this.toggleAll = this.toggleAll.bind(this);
   }
 
   toggle() {
@@ -37,56 +34,54 @@ class DuelButton extends React.Component {
     });
   }
 
-  toggleAll() {
-    this.setState({
-      nestedModal: !this.state.nestedModal,
-      closeAll: true
-    });
-  }
-
   componentDidMount = async () => {
     // if (this.props.authState) {
       this.props.fetchOpponents()
     // }
   }
 
+	handleSelectChange = (value) => {
+		const newValue = value.split(',');
+	  this.setState(this.state.value.length === 3 ? {value: [this.state.value[0],this.state.value[1],newValue[3]]}: { value: newValue});
+  }
+  //
+  // handleOpponent = (value) => {
+  //   console.log("JUSTIN!!!!!: ", value)
+  // }
+
   render () {
     const opponents = this.props.duels.opponentList
     const duels = opponents.map(opponent => {
       return (
-        <option>{opponent.first_name} {opponent.last_name}</option>
+        <option value={opponent.id}>{opponent.first_name} {opponent.last_name}</option>
       )
     })
-    const dailiesForNewDuel = this.props.dailies.dailies
-    console.log('HELLO: ', dailiesForNewDuel)
-    const dailyList = dailiesForNewDuel.map(daily => {
-      return (
-          <option>{daily.name}</option>
-      )
-    })
+
     return (
       <div>
         <Button color="info" onClick={this.toggle}>New Duel</Button>
-        <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+        <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className} >
           <ModalHeader toggle={this.toggle}>Duel Settings</ModalHeader>
           <ModalBody>
-            <Form>
+            <Form
+              onSubmit={(event)=>{
+                event.preventDefault()
+                this.props.addDuel(this.props.authState.id, event.target.select.value, this.state.value);
+                this.setState(this.state.value=[])
+              }}>
               <FormGroup>
-                <Label for="exampleSelect">Who has besmearched your honor?</Label>
-                <Input type="select" name="select" id="exampleSelect">
+                <Label for="select"><h5>Who Has BESMEARCHED Your Honor?</h5></Label>
+              <Input type="select" name="select" id="select">
                   {duels}
                 </Input>
               </FormGroup>
               <FormGroup>
-                <DuelDailySelector />
+                <DuelDailySelector dailies={this.props.dailies} handleSelectChange={this.handleSelectChange} value={this.state.value} removeSelected={this.state.removeSelected}/>
               </FormGroup>
-              <Button>Submit</Button>
+            <Button color="danger">Demand Satisfaction!</Button>{' '}
+            <Button color="secondary" onClick={this.toggle}>Cancel</Button>
             </Form>
           </ModalBody>
-          <ModalFooter>
-            <Button color={"danger"} onClick={this.toggle}>Demand Satisfaction!</Button>{' '}
-            <Button color="secondary" onClick={this.toggle}>Cancel</Button>
-          </ModalFooter>
         </Modal>
       </div>
     )

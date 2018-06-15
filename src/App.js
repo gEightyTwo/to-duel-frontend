@@ -41,7 +41,7 @@ class App extends React.Component {
                 <DailyList />
               </Col>
               <Col xs="12" md="7" style={columnStyle}>
-                <DuelList />
+                <DuelList authState={this.props.authState}/>
               </Col>
             </Row>
           </Container>

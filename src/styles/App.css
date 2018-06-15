@@ -83,3 +83,7 @@ div a:hover {
   border-top-style: solid;
   border-top-width: 1px;
 }
+
+ul{
+  background-color: white;
+}

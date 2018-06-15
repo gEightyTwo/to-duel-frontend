@@ -6,48 +6,29 @@ import 'react-select/dist/react-select.css'
 
 class DuelDailySelector extends React.Component{
 
-	// displayName: 'Select Three Dailies',
 	constructor(props){
 		super(props)
 		this.state ={
-			removeSelected: false,
-			value: [],
 		}
 	}
 
-	handleSelectChange = (value) => {
-		const newValue = value.split(',');
-		this.setState(this.state.value.length === 3 ? {value: [this.state.value[0],this.state.value[1],newValue[3]]}: { value: newValue});
-	}
-
-	toggleCheckbox = (e) => {
-		this.setState({
-			[e.target.name]: e.target.checked,
-		});
-	}
-
 	render () {
-		const { value } = this.state;
-		const options = this.props.dailies.dailies.map(daily=> ({label: daily.name, value: daily.name}));
-		console.log('HERE BE DRAGONS: ', value)
+		const options = this.props.dailies.dailies.map(daily=> ({label: daily.name, value: daily.id}));
 		return (
 			<div className="section">
-				<h3 className="section-heading">{this.props.label}</h3>
+				<h5 className="section-heading">Select Three Dailies With Which To Duel</h5>
 				<Select
-					closeOnSelect={this.state.removeSelected}
-
+					closeOnSelect={this.props.removeSelected}
 					multi
-					onChange={this.handleSelectChange}
+					onChange={this.props.handleSelectChange}
 					options={options}
 					placeholder="Select your dailies"
 					simpleValue
-					value={value}
+					value={this.props.value}
 				/>
 			</div>
 		);
 	}
 };
-const mapStateToProps = ({ dailies }) => {
-  return {dailies}
-}
-export default connect(mapStateToProps)(DuelDailySelector);
+
+export default DuelDailySelector;
