@@ -12,7 +12,6 @@ class DailyList extends React.Component {
 
   // Mounting Methods
   componentDidMount = async () => {
-    console.log('HELLO: ', this.props)
     this.props.fetchDailies(this.props.authState.id)
   }
 

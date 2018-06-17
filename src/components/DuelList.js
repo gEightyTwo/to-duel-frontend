@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { ListGroup, ListGroupItem, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { ListGroup, ListGroupItem } from 'reactstrap';
 import Duel from './Duel'
 import 'bootstrap/dist/css/bootstrap.css'
 
@@ -11,9 +11,9 @@ import withAuthentication from '../helpers/withAuthentication'
 import DuelButton from './DuelButton'
 
 class DuelList extends React.Component {
-  constructor(props) {
-    super(props)
-  }
+  // constructor(props) {
+  //   super(props)
+  // }
   // Mounting Methods
   componentDidMount = async () => {
     if (this.props.authState) {

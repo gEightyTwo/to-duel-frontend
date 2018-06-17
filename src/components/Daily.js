@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { fetchDailies, handleCheck, addDaily, archiveDaily } from '../actions/dailies';
-import request from '../helpers/request';
+// import request from '../helpers/request';
 import { ListGroupItem, Badge } from 'reactstrap';
 import FontAwesome from 'react-fontawesome'
 
@@ -11,7 +11,7 @@ import FontAwesome from 'react-fontawesome'
 class Daily extends React.Component {
 
   render() {
-    const {id, name, users_id, history, streak, completed,
+    const {id, name, users_id, streak, completed,
     } = this.props.daily
 
     const dailyStyle = {
@@ -35,7 +35,7 @@ class Daily extends React.Component {
       color: '#8F0000'
     }
 
-    const thisDailyInfo = this.props.dailies.dailies.find(ele => ele.id === id)
+    // const thisDailyInfo = this.props.dailies.dailies.find(ele => ele.id === id)
 
     return (
       <ListGroupItem

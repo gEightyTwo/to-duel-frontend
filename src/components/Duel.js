@@ -1,10 +1,10 @@
 import React from 'react';
 import request from '../helpers/request';
-import { ListGroup, ListGroupItem, ListGroupItemText, ListGroupItemHeading, Badge } from 'reactstrap';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { fetchDuel } from '../actions/duels';
-import { Container, Row, Col, Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle, CardHeader, CardFooter, Alert } from 'reactstrap';
+import { ListGroup, ListGroupItem, Badge } from 'reactstrap';
+// import { connect } from 'react-redux';
+// import { bindActionCreators } from 'redux';
+// import { fetchDuel } from '../actions/duels';
+import { Container, Row, Col, Card, CardHeader, Alert } from 'reactstrap';
 import withAuthentication from '../helpers/withAuthentication'
 
 //this.state.duel is not this.props.duel. props contains a list of duels. state contains daily data about the duel in questions.
@@ -102,27 +102,22 @@ class Duel extends React.Component {
             <Col xs="12" md="6">
               <Card>
                 <CardHeader><Badge pill>{this.state.user.userDailies ? this.state.user.userDailyCounts.reduce((acc, val)=> acc + val ) : null}/15</Badge> Your Dailies:</CardHeader>
-                {/* <CardBody> */}
-                  <CardText>
                     <ListGroup>
                       <ListGroupItem>{this.state.user.userDailies ? this.state.user.userDailies[0]: null} <Badge color='info' pill>{this.state.user.userDailies ? this.state.user.userDailyCounts[0]: null}/5</Badge></ListGroupItem>
                       <ListGroupItem>{this.state.user.userDailies ? this.state.user.userDailies[1]: null} <Badge color='info' pill>{this.state.user.userDailies ? this.state.user.userDailyCounts[1]: null}/5</Badge></ListGroupItem>
                       <ListGroupItem>{this.state.user.userDailies ? this.state.user.userDailies[2]: null} <Badge color='info' pill>{this.state.user.userDailies ? this.state.user.userDailyCounts[2]: null}/5</Badge></ListGroupItem>
                     </ListGroup>
-                  </CardText>
-                {/* </CardBody> */}
               </Card>
             </Col>
             <Col xs="12" md="6">
               <Card>
                 <CardHeader><Badge pill>{this.state.opponent.opponentDailies ? this.state.opponent.opponentDailyCounts.reduce((acc, val)=> acc + val ) : null}/15</Badge> {opponentName} Dailies:</CardHeader>
-                <CardText>
                   <ListGroup>
                     <ListGroupItem>{this.state.opponent.opponentDailies ? this.state.opponent.opponentDailies[0]: null} <Badge color='info' pill>{this.state.opponent.opponentDailies ? this.state.opponent.opponentDailyCounts[0]: null}/5</Badge></ListGroupItem>
                     <ListGroupItem>{this.state.opponent.opponentDailies ? this.state.opponent.opponentDailies[1]: null} <Badge color='info' pill>{this.state.opponent.opponentDailies ? this.state.opponent.opponentDailyCounts[1]: null}/5</Badge></ListGroupItem>
                     <ListGroupItem>{this.state.opponent.opponentDailies ? this.state.opponent.opponentDailies[2]: null} <Badge color='info' pill>{this.state.opponent.opponentDailies ? this.state.opponent.opponentDailyCounts[2]: null}/5</Badge></ListGroupItem>
                   </ListGroup>
-                </CardText>
+
               </Card>
             </Col>
           </Row>

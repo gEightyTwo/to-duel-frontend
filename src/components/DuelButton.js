@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { ListGroupItem, Button, Modal, ModalHeader, ModalBody, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, Form, FormGroup, Label, Input } from 'reactstrap';
 import { bindActionCreators } from 'redux';
 
 import DuelDailySelector from './DuelDailySelector';
 import { fetchDuels, addDuel, fetchDuel, fetchOpponents } from '../actions/duels';
 import { getUser } from '../actions/auth';
-import withAuthentication from '../helpers/withAuthentication';
+// import withAuthentication from '../helpers/withAuthentication';
 
 class DuelButton extends React.Component {
   constructor(props) {
@@ -51,9 +51,9 @@ class DuelButton extends React.Component {
 
   render () {
     const opponents = this.props.duels.opponentList
-    const duels = opponents.map(opponent => {
+    const duels = opponents.map((opponent,key) => {
       return (
-        <option value={opponent.id}>{opponent.first_name} {opponent.last_name}</option>
+        <option key={key} value={opponent.id}>{opponent.first_name} {opponent.last_name}</option>
       )
     })
 
