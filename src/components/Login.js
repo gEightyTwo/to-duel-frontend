@@ -1,12 +1,9 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route,
-  // Redirect
-} from 'react-router-dom';
 import { Button, Form, FormGroup, Alert, Input, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { userLogin, userSignup } from '../actions/auth';
+import { userLogin } from '../actions/auth';
 
 class Login extends React.Component {
  state = {
@@ -23,18 +20,7 @@ class Login extends React.Component {
    this.setState(this.state);
  };
 
- handleSignup = event => {
-   event.preventDefault();
-   this.props.userSignup (this.state, this.props.history);
-   // this.setState(this.state);
- }
-
  render () {
-   const nameStyle = {
-     display: 'flex',
-     justifyContent: 'space-evenly',
-     alignItems: 'center',
-   }
    return (
      <div className="welcome-container">
        <Modal className="welcome-modal" isOpen centered>
@@ -80,6 +66,6 @@ class Login extends React.Component {
 
 const mapStateToProps = state => ({showLoginError: state.auth.showLoginError});
 
-const mapDispatchToProps = dispatch => (bindActionCreators({userLogin, userSignup}, dispatch));
+const mapDispatchToProps = dispatch => (bindActionCreators({userLogin}, dispatch));
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

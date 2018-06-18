@@ -8,7 +8,7 @@ import { bindActionCreators } from 'redux';
 // import { getUser } from './actions/auth'
 import { fetchDailies } from './actions/dailies';
 import { fetchDuels } from './actions/duels';
-import { AuthenticatedRoute } from './helpers'
+// import { AuthenticatedRoute } from './helpers'
 import withAuthentication from './helpers/withAuthentication'
 
 import './styles/App.css';
