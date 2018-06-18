@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Switch, Route,
   // Redirect
 } from 'react-router-dom';
-import { Button, Form, FormGroup, Alert, Input, Modal, ModalBody, ModalFooter } from 'reactstrap';
+import { Button, Form, FormGroup, Alert, Input, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -12,7 +12,6 @@ class Login extends React.Component {
  state = {
    email: '',
    password: '',
-   signupForm: false,
    first_name: '',
    last_name: '',
  };
@@ -40,7 +39,7 @@ class Login extends React.Component {
      <div className="welcome-container">
        <Modal className="welcome-modal" isOpen centered>
          <Form onSubmit={this.handleLogin}>
-           {!this.state.signupForm ? (
+           <ModalHeader>Login</ModalHeader>
            <ModalBody>
              <FormGroup>
                <Input
@@ -68,63 +67,14 @@ class Login extends React.Component {
                </Alert>
              ) : null}
            </ModalBody>
-         )
-           : (
-             // Signup Form
-           <ModalBody>
-             Create Account
-             <FormGroup style={nameStyle}>
-               <Input
-                 type="first_name"
-                 name="first_name"
-                 id="first_name"
-                 placeholder="First Name"
-                 value={this.state.first_name}
-                 onChange={event => this.setState({first_name: event.target.value})}
-               />
-               <Input
-                 type="last_name"
-                 name="last_name"
-                 id="last_name"
-                 placeholder="Last Name"
-                 value={this.state.last_name}
-                 onChange={event => this.setState({last_name: event.target.value})}
-               />
-             </FormGroup>
-             <FormGroup>
-               <Input
-                 type="email"
-                 name="email"
-                 id="email"
-                 placeholder="Email"
-                 value={this.state.email}
-                 onChange={event => this.setState({email: event.target.value})}
-               />
-             </FormGroup>
-             <FormGroup>
-               <Input
-                 type="password"
-                 name="password"
-                 id="password"
-                 placeholder="Password"
-                 value={this.state.password}
-                 onChange={event => this.setState({password: event.target.value})}
-               />
-             </FormGroup>
-           </ModalBody>
-           ) }
            <ModalFooter>
-             <Button type="submit" color="info">
-               {this.state.signupForm ? 'Create User' : 'Login'}
-             </Button>
-             <a href="/signup">
-              {this.state.signupForm ? 'Already a member?' : 'Not a member?'}
-             </a>
+             <Button type="submit" color="info"> Login </Button>
+             <a href="/signup"> Not a member? </a>
            </ModalFooter>
          </Form>
        </Modal>
      </div>
-   );
+   )
  };
 };
 

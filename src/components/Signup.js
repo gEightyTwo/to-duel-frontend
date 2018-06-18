@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Switch, Route,
   // Redirect
 } from 'react-router-dom';
-import { Button, Form, FormGroup, Alert, Input, Modal, ModalBody, ModalFooter } from 'reactstrap';
+import { Button, Form, FormGroup, Alert, Input, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -33,6 +33,7 @@ class Signup extends React.Component {
      <div className="welcome-container">
        <Modal className="welcome-modal" isOpen centered>
          <Form onSubmit={this.handleSignup}>
+           <ModalHeader>Signup</ModalHeader>
            <ModalBody>
              <FormGroup style={nameStyle}>
                <Input
