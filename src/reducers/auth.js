@@ -10,12 +10,14 @@ import {
   USER_LOGOUT
 } from '../actions/auth';
 
+
 let initialState = {
   isLoading: false,
   user: {},
   showLoginError: false,
   showSignupError: false,
-  authorized: false
+  authorized: false,
+  opponents: []
 };
 
 export default (state = initialState, action) => {

@@ -18,7 +18,6 @@ class DailyList extends React.Component {
 
 
   render () {
-    console.log('DailyList',this.props.dailies)
     const dailiesData = this.props.dailies.dailies.sort(function(a, b){
       // Compare the 2 dates
       if(a.id < b.id) return -1;
@@ -26,7 +25,6 @@ class DailyList extends React.Component {
       return 0;
     })
 
-    console.log(dailiesData)
     const Dailies = dailiesData.map(daily => {
       return (
         <Daily
@@ -35,8 +33,6 @@ class DailyList extends React.Component {
         />
       )
     })
-
-    console.log(this.props)
 
     const formStyle = {
       display: 'flex',
