@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import request from '../helpers/request';
 import { ListGroup, ListGroupItem, Badge, Button, FormGroup } from 'reactstrap';
 // import { connect } from 'react-redux';
@@ -6,6 +8,7 @@ import { ListGroup, ListGroupItem, Badge, Button, FormGroup } from 'reactstrap';
 // import { fetchDuel } from '../actions/duels';
 import { Container, Row, Col, Card, CardHeader, Alert } from 'reactstrap';
 import withAuthentication from '../helpers/withAuthentication'
+import { rejectDuel, confirmDuel } from '../actions/duels';
 
 //this.state.duel is not this.props.duel. props contains a list of duels. state contains daily data about the duel in questions.
 
@@ -126,12 +129,33 @@ class Duel extends React.Component {
               </Card>
             </Col>
           </Row>
-          { u2_accepted && !u1_confirmed && end_time > this.props.today ? <FormGroup> <Button color="info">Accept Your Opponent's Terms</Button> <Button color="secondary">Reject This Charlatan's Duel</Button> </FormGroup>: null}
+          { u2_accepted && !u1_confirmed && end_time > this.props.today ?
+            <FormGroup>
+              <Button
+                onClick={(event)=>{
+                  event.preventDefault()
+                  this.props.confirmDuel(this.props.authState.id, id)
+                  }}
+                color="info">Accept Your Opponent's Terms
+              </Button>
+              {" "}
+              <Button
+                onClick={(event)=>{
+                  event.preventDefault()
+                  this.props.rejectDuel(this.props.authState.id, id)
+                  }}
+                color="secondary">Reject This Charlatan's Duel
+              </Button>
+            </FormGroup> :
+             null}
           { !u2_accepted && end_time > this.props.today ? <Button color="danger">{opponentName} Demands Satisfaction, Post Haste!</Button>: null }
       </Container>
     )
   }
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({rejectDuel, confirmDuel}, dispatch)
+}
 
-export default withAuthentication(Duel);
+export default withAuthentication(connect(null, mapDispatchToProps)(Duel));

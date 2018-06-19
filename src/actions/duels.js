@@ -11,7 +11,6 @@ export const REMOVE_DUEL = 'REMOVE_DUEL';
 
 export const START_DUEL = 'START_DUEL';
 export const ACCEPT_DUEL = 'ACCEPT_DUEL';
-export const CONFIRM_DUEL = 'CONFIRM_DUEL';
 
 export const FETCH_OPPONENTS = 'FETCH_OPPONENTS'
 
@@ -59,9 +58,12 @@ export const addDuel = (
   }
 };
 
-export const removeDuel = () => (
+export const rejectDuel = (userId, duelId) => (
   dispatch => {
-
+    request(`/users/${userId}/duels/${duelId}`, 'patch', {rejected: moment().format("YYYY-MM-DDTH:mm:ss")})
+    .then((response) => {
+      dispatch(fetchDuels(userId))
+    })
   }
 );
 
@@ -77,8 +79,11 @@ export const acceptDuel = () => (
   }
 );
 
-export const confirmDuel = () => (
+export const confirmDuel = (userId, duelId) => (
   dispatch => {
-
+    request(`/users/${userId}/duels/${duelId}`, 'patch', {u1_confirmed: true})
+    .then((response) => {
+      dispatch(fetchDuels(userId))
+    })
   }
 );
