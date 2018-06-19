@@ -29,31 +29,31 @@ class Duel extends React.Component {
       let opponentDailyCounts= [0,0,0]
 
       if (this.props.userId === response.data.data.u1_id){
-        response.data.data.user1_dailies.map(daily=> {
+        response.data.data.user1_dailies.forEach(daily=> {
             userDailies.push(daily.name)
-          daily.history.map(ele=> {
+          daily.history.forEach(ele=> {
             let index = userDailies.indexOf(daily.name)
             if(ele.completed === true) userDailyCounts[index]++
           })
         })
-        response.data.data.user2_dailies.map(daily=> {
+        response.data.data.user2_dailies.forEach(daily=> {
           opponentDailies.push(daily.name)
-          daily.history.map(ele=> {
+          daily.history.forEach(ele=> {
             let index = opponentDailies.indexOf(daily.name)
             if(ele.completed === true) opponentDailyCounts[index]++
           })
         })
       } else {
-        response.data.data.user2_dailies.map(daily=> {
+        response.data.data.user2_dailies.forEach(daily=> {
           userDailies.push(daily.name)
-          daily.history.map(ele => {
+          daily.history.forEach(ele => {
             let index = userDailies.indexOf(daily.name)
             if(ele.completed === true) userDailyCounts[index]++
           })
         })
-        response.data.data.user1_dailies.map(daily=> {
+        response.data.data.user1_dailies.forEach(daily=> {
           opponentDailies.push(daily.name)
-          daily.history.map(ele => {
+          daily.history.forEach(ele => {
             let index = opponentDailies.indexOf(daily.name)
             if(ele.completed === true) opponentDailyCounts[index]++
           })
@@ -126,7 +126,7 @@ class Duel extends React.Component {
             </Col>
           </Row>
           { u2_accepted && !u1_confirmed && end_time > this.props.today ? <FormGroup> <Button color="info">Accept Your Opponent's Terms</Button> <Button color="secondary">Reject This Charlatan's Duel</Button> </FormGroup>: null}
-          { !u2_accepted && end_time > this.props.today ? <Button color="danger">{opponentName} Demands Satisfaction, Post Haste!</Button>: null }
+          { !u2_accepted && end_time > this.props.today ? <FormGroup> <Button color="danger">{opponentName} Demands Satisfaction, Post Haste!</Button> </FormGroup>: null }
       </Container>
     )
   }
