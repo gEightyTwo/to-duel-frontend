@@ -60,7 +60,7 @@ class DuelList extends React.Component {
 
     return (
       <div>
-        <ListGroup>
+        <ListGroup className="DuelList">
           <ListGroupItem
             className="justify-content-between duel-background">
             <div className="columnTitles"> Duels! </div>

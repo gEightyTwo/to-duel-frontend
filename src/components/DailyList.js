@@ -40,7 +40,7 @@ class DailyList extends React.Component {
       alignItems: 'center',
     }
     return (
-      <ListGroup>
+      <ListGroup className="DailyList">
         <ListGroupItem
           className="justify-content-between">
           <div className="columnTitles"> Dailies </div>

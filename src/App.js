@@ -6,11 +6,6 @@ import { bindActionCreators } from 'redux';
 
 import { fetchDailies } from './actions/dailies';
 import { fetchDuels } from './actions/duels';
-<<<<<<< HEAD
-// import { AuthenticatedRoute } from './helpers'
-=======
-
->>>>>>> 80a92a2465938cd90d26c7e01b77c1ab10220f4a
 import withAuthentication from './helpers/withAuthentication'
 
 import './styles/App.css';
