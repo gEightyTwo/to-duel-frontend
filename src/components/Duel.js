@@ -125,9 +125,7 @@ class Duel extends React.Component {
               </Card>
             </Col>
           </Row>
-          <Row>
             {(this.state.user.userDailyCounts && this.state.user.userDailyCounts.reduce((acc, val)=> acc + val ) > this.state.opponent.opponentDailyCounts.reduce((acc, val)=> acc + val )) && (Date.parse(this.props.duel.end_time) < Date.parse(new Date())) ? <Alert color="success">You Won!</Alert> : null }
-          </Row>
       </Container>
     )
   }

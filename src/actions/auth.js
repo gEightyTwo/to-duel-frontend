@@ -16,6 +16,7 @@ export const USER_LOGOUT = 'USER_LOGOUT';
 
 export const userLogin = ({email, password}, history) => (
   dispatch => {
+    console.log(email, password)
     dispatch({type: USER_LOGIN_PENDING});
     request('/auth/token', 'post', {email, password})
     .then(response => {
@@ -42,8 +43,9 @@ export const userLogin = ({email, password}, history) => (
 
 export const userSignup = (newUser, history) => (
   dispatch => {
+    console.log(newUser)
     dispatch({type: USER_SIGNUP_PENDING});
-    request('/api/users', 'post', newUser)
+    request('/users', 'post', newUser)
     .then(response => {
       dispatch({
         type: USER_SIGNUP_SUCCESS,

@@ -12,6 +12,7 @@ import withAuthentication from './helpers/withAuthentication'
 import './styles/App.css';
 import Header from './components/Header';
 import Login from './components/Login';
+import Signup from './components/Signup';
 import DailyList from './components/DailyList';
 import DuelList from './components/DuelList';
 
@@ -30,6 +31,7 @@ class App extends React.Component {
         <BrowserRouter>
           <Switch>
             <Route path="/login" component={Login} />
+            <Route path="/signup" component={Signup} />
           </Switch>
         </BrowserRouter>
         {this.props.authState ?
