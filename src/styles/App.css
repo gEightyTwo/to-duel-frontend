@@ -41,7 +41,7 @@ div.jumbotron{
 }
 
 .row{
-  height: 285px;
+  /* height: 285px; */
 }
 
 .logo{
@@ -69,4 +69,21 @@ div a {
 
 div a:hover {
   color: #5bc0de
+}
+
+.duel-background {
+  background-color: #fff;
+  opacity: 0.9;
+  border-bottom-color: rgba(0, 0, 0, 0.125);
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+}
+.duel-header{
+  border-top-color: rgba(0, 0, 0, 0.125);
+  border-top-style: solid;
+  border-top-width: 1px;
+}
+
+ul{
+  background-color: white;
 }

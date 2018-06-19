@@ -1,14 +1,16 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route,
-  // Redirect
-} from 'react-router-dom';
+import { BrowserRouter, Switch, Route} from 'react-router-dom';
 import { Container, Row, Col } from 'reactstrap';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-// import { getUser } from './actions/auth'
+
 import { fetchDailies } from './actions/dailies';
 import { fetchDuels } from './actions/duels';
+<<<<<<< HEAD
 // import { AuthenticatedRoute } from './helpers'
+=======
+
+>>>>>>> 80a92a2465938cd90d26c7e01b77c1ab10220f4a
 import withAuthentication from './helpers/withAuthentication'
 
 import './styles/App.css';
@@ -43,7 +45,7 @@ class App extends React.Component {
                 <DailyList />
               </Col>
               <Col xs="12" md="7" style={columnStyle}>
-                <DuelList />
+                <DuelList authState={this.props.authState}/>
               </Col>
             </Row>
           </Container>
@@ -58,7 +60,7 @@ const mapStateToProps = ( {dailies, duels} ) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({fetchDailies, fetchDuels}, dispatch)
+  return bindActionCreators({fetchDailies, fetchDuels }, dispatch)
 }
 
 export default withAuthentication(connect(mapStateToProps, mapDispatchToProps)(App))

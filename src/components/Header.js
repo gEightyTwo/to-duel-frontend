@@ -22,14 +22,14 @@ class Header extends React.Component {
               <h1 className="title">To Duel</h1>
               </Col>
             </Row>
-        </Container>
+          </Container>
         </Jumbotron>
 
         <Navbar color="dark" dark expand="md">
           <NavbarBrand href="/">
-          {this.props.authState && this.props.authState.name}
+            {this.props.authState && this.props.authState.name}
           </NavbarBrand>
-          { this.props.authState ? (
+            { this.props.authState ? (
               <Nav className="ml-auto" navbar>
                 <NavItem>
                   <NavLink href="/" className="nav-link" onClick={() => this.props.userLogout()}>Log Out</NavLink>
