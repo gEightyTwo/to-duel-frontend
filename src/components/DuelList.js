@@ -31,19 +31,26 @@ class DuelList extends React.Component {
 
   render () {
   const cutOffDate = moment().subtract(14,'d').format("YYYY-MM-DDTH:mm:ss")
+  const today = moment().format("YYYY-MM-DDTH:mm:ss")
   const duelsData = this.props.duels.duels
-  
-    let Duels = duelsData.filter(duel => duel.end_time > cutOffDate)
-                          .map(duel => {
-                            return (
-                              <Duel
-                                key={duel.id}
-                                duel={duel}
-                                userId={this.props.authState.id}
-                              />
-                            )
-                          })
+  const duelsToConfirm = duelsData.filter(duel=>duel.u2_accepted && !duel.u1_confirmed && duel.end_time > today)
+  const duelsToAccept = duelsData.filter(duel=> !duel.u2_accepted && duel.end_time > today)
+  const duelsActive = duelsData.filter(duel=> duel.u2_accepted && duel.u1_confirmed && duel.end_time > today)
+  const duelsComplete = duelsData.filter(duel=> duel.end_time < today && duel.u1_confirmed)
 
+  let Duels = duelsToConfirm.concat(duelsToAccept, duelsActive, duelsComplete)
+                            .filter(duel => duel.end_time > cutOffDate)
+                            .filter(duel=> !duel.rejected)
+                            .map(duel => {
+                              return (
+                                <Duel
+                                  key={duel.id}
+                                  duel={duel}
+                                  userId={this.props.authState.id}
+                                  today={today}
+                                />
+                              )
+                            })
 
   const formStyle = {
     display: 'flex',

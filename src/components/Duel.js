@@ -1,6 +1,6 @@
 import React from 'react';
 import request from '../helpers/request';
-import { ListGroup, ListGroupItem, Badge } from 'reactstrap';
+import { ListGroup, ListGroupItem, Badge, Button, FormGroup } from 'reactstrap';
 // import { connect } from 'react-redux';
 // import { bindActionCreators } from 'redux';
 // import { fetchDuel } from '../actions/duels';
@@ -81,11 +81,12 @@ class Duel extends React.Component {
       opponent_name,
       archived,
       created_at,
-      endTime,
+      end_time,
       id,
       startTime,
       u1_confirmed,
-      u1_id
+      u1_id,
+      u2_accepted
     } = this.props.duel
     const userName = this.props.authState.name
     const opponentName = this.props.duel.u1_name === this.props.authState.name ? this.props.duel.u2_name : this.props.duel.u1_name
@@ -97,9 +98,10 @@ class Duel extends React.Component {
           <Row
             className="duel-header">
             <Col>
-              {opponentName}
+              <h3>vs. {opponentName}</h3>
+            {(this.state.user.userDailyCounts && this.state.user.userDailyCounts.reduce((acc, val)=> acc + val ) > this.state.opponent.opponentDailyCounts.reduce((acc, val)=> acc + val )) && (Date.parse(this.props.duel.end_time) < Date.parse(new Date())) ? <Alert color="success">You Won!</Alert> : null }
+            {(this.state.user.userDailyCounts && this.state.user.userDailyCounts.reduce((acc, val)=> acc + val ) < this.state.opponent.opponentDailyCounts.reduce((acc, val)=> acc + val )) && (Date.parse(this.props.duel.end_time) < Date.parse(new Date())) ? <Alert color="danger">You Lose!</Alert> : null }
               {Date.parse(this.props.duel.end_time) < Date.parse(new Date()) ? <Badge color='dark' pill> Duel Finished</Badge>: null}
-              {}
             </Col>
           </Row>
           <Row>
@@ -121,11 +123,11 @@ class Duel extends React.Component {
                     <ListGroupItem>{this.state.opponent.opponentDailies ? this.state.opponent.opponentDailies[1]: null} <Badge color='info' pill>{this.state.opponent.opponentDailies ? this.state.opponent.opponentDailyCounts[1]: null}/5</Badge></ListGroupItem>
                     <ListGroupItem>{this.state.opponent.opponentDailies ? this.state.opponent.opponentDailies[2]: null} <Badge color='info' pill>{this.state.opponent.opponentDailies ? this.state.opponent.opponentDailyCounts[2]: null}/5</Badge></ListGroupItem>
                   </ListGroup>
-
               </Card>
             </Col>
           </Row>
-            {(this.state.user.userDailyCounts && this.state.user.userDailyCounts.reduce((acc, val)=> acc + val ) > this.state.opponent.opponentDailyCounts.reduce((acc, val)=> acc + val )) && (Date.parse(this.props.duel.end_time) < Date.parse(new Date())) ? <Alert color="success">You Won!</Alert> : null }
+          { u2_accepted && !u1_confirmed && end_time > this.props.today ? <FormGroup> <Button color="info">Accept Your Opponent's Terms</Button> <Button color="secondary">Reject This Charlatan's Duel</Button> </FormGroup>: null}
+          { !u2_accepted && end_time > this.props.today ? <Button color="danger">{opponentName} Demands Satisfaction, Post Haste!</Button>: null }
       </Container>
     )
   }
