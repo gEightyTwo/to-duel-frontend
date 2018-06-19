@@ -22,7 +22,7 @@ class Duel extends React.Component {
   fetchDuel = (userId, duelId) => {
     request(`/users/${userId}/duels/${duelId}`)
     .then((response) => {
-      // console.log('Response: ', response);
+      console.log('Response: ', response.data.data);
       let userDailies= [];
       let opponentDailies= []
       let userDailyCounts= [0,0,0]
@@ -96,7 +96,11 @@ class Duel extends React.Component {
         className="justify-content-between duel-background">
           <Row
             className="duel-header">
-            <Col>{opponentName} {Date.parse(this.props.duel.end_time) < Date.parse(new Date()) ? <Badge color='dark' pill> Duel Finished</Badge>: null}</Col>
+            <Col>
+              {opponentName}
+              {Date.parse(this.props.duel.end_time) < Date.parse(new Date()) ? <Badge color='dark' pill> Duel Finished</Badge>: null}
+              {}
+            </Col>
           </Row>
           <Row>
             <Col xs="12" md="6">

@@ -46,7 +46,7 @@ export const addDuel = (
   u2_id,
   value,
   startTime = moment().day(1+7).hours(0).minutes(0).seconds(0).format("YYYY-MM-DDTH:mm:ss"),
-  endTime = moment().day(5+7).hours(0).minutes(0).seconds(0).format("YYYY-MM-DDTH:mm:ss")
+  endTime = moment().day(5+7).hours(23).minutes(59).seconds(59).format("YYYY-MM-DDTH:mm:ss")
 ) => {
   return dispatch => {
     request(`/users/${id}/duels`, `post`, {u2_id: u2_id, dailies: value, startTime, endTime})

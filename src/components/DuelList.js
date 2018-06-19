@@ -9,11 +9,13 @@ import { fetchDuels, addDuel, fetchDuel } from '../actions/duels';
 import { getUser } from '../actions/auth';
 import withAuthentication from '../helpers/withAuthentication'
 import DuelButton from './DuelButton'
+var moment = require('moment');
 
 class DuelList extends React.Component {
   // constructor(props) {
   //   super(props)
   // }
+
   // Mounting Methods
   componentDidMount = async () => {
     if (this.props.authState) {
@@ -28,16 +30,20 @@ class DuelList extends React.Component {
   }
 
   render () {
+  const cutOffDate = moment().subtract(14,'d').format("YYYY-MM-DDTH:mm:ss")
   const duelsData = this.props.duels.duels
-  const Duels = duelsData.map(duel => {
-    return (
-      <Duel
-        key={duel.id}
-        duel={duel}
-        userId={this.props.authState.id}
-      />
-    )
-  })
+  
+    let Duels = duelsData.filter(duel => duel.end_time > cutOffDate)
+                          .map(duel => {
+                            return (
+                              <Duel
+                                key={duel.id}
+                                duel={duel}
+                                userId={this.props.authState.id}
+                              />
+                            )
+                          })
+
 
   const formStyle = {
     display: 'flex',
