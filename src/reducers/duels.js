@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { reducer as formReducer } from 'redux-form';
+// import { reducer as formReducer } from 'redux-form';
 import {
   FETCH_DUELS_SUCCESS,
   FETCH_DUEL_SUCCESS,

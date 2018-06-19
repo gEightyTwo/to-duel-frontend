@@ -6,7 +6,6 @@ import { bindActionCreators } from 'redux';
 
 import { fetchDailies } from './actions/dailies';
 import { fetchDuels } from './actions/duels';
-
 import withAuthentication from './helpers/withAuthentication'
 
 import './styles/App.css';

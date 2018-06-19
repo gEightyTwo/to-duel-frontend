@@ -59,9 +59,7 @@ div.jumbotron{
   font-size: 3rem;
 }
 
-ul {
-  opacity: 0.9;
-}
+
 
 div a {
   color: #5bc0de
@@ -71,6 +69,14 @@ div a:hover {
   color: #5bc0de
 }
 
+.DuelList, .DailyList {
+  opacity: 0.95;
+  background-color: #fff;
+  border-bottom-color: rgba(0, 0, 0, 0.125);
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+}
+
 .duel-background {
   background-color: #fff;
   opacity: 0.9;
@@ -78,12 +84,14 @@ div a:hover {
   border-bottom-style: solid;
   border-bottom-width: 1px;
 }
+
 .duel-header{
   border-top-color: rgba(0, 0, 0, 0.125);
   border-top-style: solid;
   border-top-width: 1px;
+  padding-top: 1rem;
 }
 
-ul{
-  background-color: white;
+.duel-body{
+  padding: 1rem;
 }
