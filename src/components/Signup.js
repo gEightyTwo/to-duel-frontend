@@ -1,7 +1,4 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route,
-  // Redirect
-} from 'react-router-dom';
 import { Button, Form, FormGroup, Alert, Input, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 import { connect } from 'react-redux';
@@ -19,11 +16,9 @@ class Signup extends React.Component {
  handleSignup = event => {
    event.preventDefault();
    this.props.userSignup (this.state, this.props.history);
-   this.setState(this.state);
  }
 
  render () {
-   console.log(this.state.signupForm)
    const nameStyle = {
      display: 'flex',
      justifyContent: 'space-evenly',

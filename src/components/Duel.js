@@ -33,31 +33,31 @@ class Duel extends React.Component {
       let opponentDailyCounts= [0,0,0]
 
       if (this.props.userId === response.data.data.u1_id){
-        response.data.data.user1_dailies.map(daily=> {
+        response.data.data.user1_dailies.forEach(daily=> {
             userDailies.push(daily.name)
-          daily.history.map(ele=> {
+          daily.history.forEach(ele=> {
             let index = userDailies.indexOf(daily.name)
             if(ele.completed === true) userDailyCounts[index]++
           })
         })
-        response.data.data.user2_dailies.map(daily=> {
+        response.data.data.user2_dailies.forEach(daily=> {
           opponentDailies.push(daily.name)
-          daily.history.map(ele=> {
+          daily.history.forEach(ele=> {
             let index = opponentDailies.indexOf(daily.name)
             if(ele.completed === true) opponentDailyCounts[index]++
           })
         })
       } else {
-        response.data.data.user2_dailies.map(daily=> {
+        response.data.data.user2_dailies.forEach(daily=> {
           userDailies.push(daily.name)
-          daily.history.map(ele => {
+          daily.history.forEach(ele => {
             let index = userDailies.indexOf(daily.name)
             if(ele.completed === true) userDailyCounts[index]++
           })
         })
-        response.data.data.user1_dailies.map(daily=> {
+        response.data.data.user1_dailies.forEach(daily=> {
           opponentDailies.push(daily.name)
-          daily.history.map(ele => {
+          daily.history.forEach(ele => {
             let index = opponentDailies.indexOf(daily.name)
             if(ele.completed === true) opponentDailyCounts[index]++
           })
@@ -82,20 +82,14 @@ class Duel extends React.Component {
 
   render () {
     const {
-      opponent_name,
-      archived,
-      created_at,
       end_time,
       id,
-      startTime,
       u1_confirmed,
       u1_id,
       u2_id,
       u2_accepted
     } = this.props.duel
-    const userName = this.props.authState.name
-    const opponentName = this.props.duel.u1_name === this.props.authState.name ? this.props.duel.u2_name : this.props.duel.u1_name
-    const name = this.props.dailies ? this.props.dailies.name: null
+const opponentName = this.props.duel.u1_name === this.props.authState.name ? this.props.duel.u2_name : this.props.duel.u1_name
 
     return (
       <Container
@@ -106,10 +100,9 @@ class Duel extends React.Component {
               <h3>vs. {opponentName}</h3>
             {(this.state.user.userDailyCounts && this.state.user.userDailyCounts.reduce((acc, val)=> acc + val ) > this.state.opponent.opponentDailyCounts.reduce((acc, val)=> acc + val )) && (Date.parse(this.props.duel.end_time) < Date.parse(new Date())) ? <Alert color="success">You Won!</Alert> : null }
             {(this.state.user.userDailyCounts && this.state.user.userDailyCounts.reduce((acc, val)=> acc + val ) < this.state.opponent.opponentDailyCounts.reduce((acc, val)=> acc + val )) && (Date.parse(this.props.duel.end_time) < Date.parse(new Date())) ? <Alert color="danger">You Lose!</Alert> : null }
-              {Date.parse(this.props.duel.end_time) < Date.parse(new Date()) ? <Badge color='dark' pill> Duel Finished</Badge>: null}
             </Col>
           </Row>
-          <Row>
+          <Row className="duel-body">
             <Col xs="12" md="6">
               <Card>
                 <CardHeader><Badge pill>{this.state.user.userDailies ? this.state.user.userDailyCounts.reduce((acc, val)=> acc + val ) : null}/15</Badge> Your Dailies:</CardHeader>

@@ -44,9 +44,6 @@ class U2AcceptDuel extends React.Component {
   }
 
   render () {
-    console.log('BRYAN', this.props)
-    const opponents = this.props.duels.opponentList
-
     return (
       <div>
         <Button color="danger" onClick={this.toggle}>
@@ -60,7 +57,7 @@ class U2AcceptDuel extends React.Component {
               onSubmit={(event)=>{
                 event.preventDefault()
                 this.props.acceptDuel(this.props.authState.id, this.props.duelId, this.state.value);
-                this.setState(this.state.value=[])
+                this.setState({value: [], modal: !this.state.modal})
               }}>
               <FormGroup>
                 <DuelDailySelector dailies={this.props.dailies} handleSelectChange={this.handleSelectChange} value={this.state.value} removeSelected={this.state.removeSelected}/>
@@ -74,13 +71,6 @@ class U2AcceptDuel extends React.Component {
     )
   }
 }
-
-
-// basic design
- // <Button color="danger">
-   // {opponentName} Demands Satisfaction, Post Haste!
- // </Button>
-
 
 const mapStateToProps = ({duels, duelData, auth, opponentList, dailies}) => {
   return {duels, duelData, auth, opponentList, dailies}

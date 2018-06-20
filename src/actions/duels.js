@@ -75,7 +75,7 @@ export const startDuel = () => (
 export const acceptDuel = (userId, duelId, value) => (
   dispatch => {
     request(`/users/${userId}/duels/${duelId}`, 'patch', {u2_accepted: true, dailies: value})
-    .then((response) => {
+    .then(() => {
       dispatch(fetchDuels(userId))
     })
   }
