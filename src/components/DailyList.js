@@ -6,7 +6,7 @@ import Daily from './Daily'
 import 'bootstrap/dist/css/bootstrap.css'
 
 import { fetchDailies, addDaily } from '../actions/dailies';
-import withAuthentication from '../helpers/withAuthentication'
+import withAuthentication from '../helpers/withAuthentication';
 
 class DailyList extends React.Component {
 

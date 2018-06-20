@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import request from '../helpers/request';
 import { ListGroup, ListGroupItem, Badge, Button, FormGroup } from 'reactstrap';
 // import { connect } from 'react-redux';
@@ -6,6 +8,8 @@ import { ListGroup, ListGroupItem, Badge, Button, FormGroup } from 'reactstrap';
 // import { fetchDuel } from '../actions/duels';
 import { Container, Row, Col, Card, CardHeader, Alert } from 'reactstrap';
 import withAuthentication from '../helpers/withAuthentication'
+import { rejectDuel, confirmDuel } from '../actions/duels';
+import U2AcceptDuel from './u2AcceptDuel'
 
 //this.state.duel is not this.props.duel. props contains a list of duels. state contains daily data about the duel in questions.
 
@@ -78,19 +82,14 @@ class Duel extends React.Component {
 
   render () {
     const {
-      opponent_name,
-      archived,
-      created_at,
       end_time,
       id,
-      startTime,
       u1_confirmed,
       u1_id,
+      u2_id,
       u2_accepted
     } = this.props.duel
-    const userName = this.props.authState.name
-    const opponentName = this.props.duel.u1_name === this.props.authState.name ? this.props.duel.u2_name : this.props.duel.u1_name
-    const name = this.props.dailies ? this.props.dailies.name: null
+const opponentName = this.props.duel.u1_name === this.props.authState.name ? this.props.duel.u2_name : this.props.duel.u1_name
 
     return (
       <Container
@@ -125,12 +124,43 @@ class Duel extends React.Component {
               </Card>
             </Col>
           </Row>
-          { u2_accepted && !u1_confirmed && end_time > this.props.today ? <FormGroup> <Button color="info">Accept Your Opponent's Terms</Button> <Button color="secondary">Reject This Charlatan's Duel</Button> </FormGroup>: null}
-          { !u2_accepted && end_time > this.props.today ? <FormGroup> <Button color="danger">{opponentName} Demands Satisfaction, Post Haste!</Button> </FormGroup>: null }
+          { u2_accepted && !u1_confirmed && end_time > this.props.today && this.props.authState.id === u1_id ?
+            <FormGroup>
+              <Button
+                onClick={(event)=>{
+                  event.preventDefault()
+                  this.props.confirmDuel(this.props.authState.id, id)
+                  }}
+                color="info">
+                Accept Your Opponent's Terms
+              </Button>
+              {" "}
+              <Button
+                onClick={(event)=>{
+                  event.preventDefault()
+                  this.props.rejectDuel(this.props.authState.id, id)
+                  }}
+                color="secondary">
+                Reject This Charlatan's Duel
+              </Button>
+            </FormGroup> :
+            null}
+            { u2_accepted && !u1_confirmed && end_time > this.props.today && !(this.props.authState.id === u1_id) ||
+              !u2_accepted && end_time > this.props.today && !(this.props.authState.id === u2_id) ?
+              <div>
+                <Alert color="warning">Awaiting Opponents Response</Alert>
+              </div>
+             : null}
+          { !u2_accepted && end_time > this.props.today && this.props.authState.id === u2_id ?
+            <U2AcceptDuel authState={this.props.authState} duelId={id} opponent={opponentName}/>
+            : null }
       </Container>
     )
   }
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({rejectDuel, confirmDuel}, dispatch)
+}
 
-export default withAuthentication(Duel);
+export default withAuthentication(connect(null, mapDispatchToProps)(Duel));
