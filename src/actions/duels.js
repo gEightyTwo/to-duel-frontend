@@ -10,7 +10,6 @@ export const ADD_DUEL = 'ADD_DUEL';
 export const REMOVE_DUEL = 'REMOVE_DUEL';
 
 export const START_DUEL = 'START_DUEL';
-export const ACCEPT_DUEL = 'ACCEPT_DUEL';
 
 export const FETCH_OPPONENTS = 'FETCH_OPPONENTS'
 
@@ -73,9 +72,12 @@ export const startDuel = () => (
   }
 );
 
-export const acceptDuel = () => (
+export const acceptDuel = (userId, duelId, value) => (
   dispatch => {
-
+    request(`/users/${userId}/duels/${duelId}`, 'patch', {u2_accepted: true, dailies: value})
+    .then((response) => {
+      dispatch(fetchDuels(userId))
+    })
   }
 );
 

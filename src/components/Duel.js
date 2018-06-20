@@ -9,6 +9,7 @@ import { ListGroup, ListGroupItem, Badge, Button, FormGroup } from 'reactstrap';
 import { Container, Row, Col, Card, CardHeader, Alert } from 'reactstrap';
 import withAuthentication from '../helpers/withAuthentication'
 import { rejectDuel, confirmDuel } from '../actions/duels';
+import U2AcceptDuel from './u2AcceptDuel'
 
 //this.state.duel is not this.props.duel. props contains a list of duels. state contains daily data about the duel in questions.
 
@@ -89,6 +90,7 @@ class Duel extends React.Component {
       startTime,
       u1_confirmed,
       u1_id,
+      u2_id,
       u2_accepted
     } = this.props.duel
     const userName = this.props.authState.name
@@ -129,14 +131,15 @@ class Duel extends React.Component {
               </Card>
             </Col>
           </Row>
-          { u2_accepted && !u1_confirmed && end_time > this.props.today ?
+          { u2_accepted && !u1_confirmed && end_time > this.props.today && this.props.authState.id === u1_id ?
             <FormGroup>
               <Button
                 onClick={(event)=>{
                   event.preventDefault()
                   this.props.confirmDuel(this.props.authState.id, id)
                   }}
-                color="info">Accept Your Opponent's Terms
+                color="info">
+                Accept Your Opponent's Terms
               </Button>
               {" "}
               <Button
@@ -144,11 +147,20 @@ class Duel extends React.Component {
                   event.preventDefault()
                   this.props.rejectDuel(this.props.authState.id, id)
                   }}
-                color="secondary">Reject This Charlatan's Duel
+                color="secondary">
+                Reject This Charlatan's Duel
               </Button>
             </FormGroup> :
-             null}
-          { !u2_accepted && end_time > this.props.today ? <Button color="danger">{opponentName} Demands Satisfaction, Post Haste!</Button>: null }
+            null}
+            { u2_accepted && !u1_confirmed && end_time > this.props.today && !(this.props.authState.id === u1_id) ||
+              !u2_accepted && end_time > this.props.today && !(this.props.authState.id === u2_id) ?
+              <div>
+                <Alert color="warning">Awaiting Opponents Response</Alert>
+              </div>
+             : null}
+          { !u2_accepted && end_time > this.props.today && this.props.authState.id === u2_id ?
+            <U2AcceptDuel authState={this.props.authState} duelId={id} opponent={opponentName}/>
+            : null }
       </Container>
     )
   }
