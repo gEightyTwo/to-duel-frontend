@@ -34,6 +34,7 @@ class Duel extends React.Component {
 
       if (this.props.userId === response.data.data.u1_id){
         response.data.data.user1_dailies.forEach(daily=> {
+
             userDailies.push(daily.name)
           daily.history.forEach(ele=> {
             let index = userDailies.indexOf(daily.name)
@@ -75,7 +76,7 @@ class Duel extends React.Component {
   }
 
   componentDidUpdate = async (prevProps, prevState) => {
-    if(prevProps.authState !== this.props.authState){
+    if(prevProps.authState !== this.props.authState || prevProps.dailies !== this.props.dailies){
       this.fetchDuel(this.props.authState.id, this.props.duel.id)
     }
   }
@@ -89,7 +90,9 @@ class Duel extends React.Component {
       u2_id,
       u2_accepted
     } = this.props.duel
-const opponentName = this.props.duel.u1_name === this.props.authState.name ? this.props.duel.u2_name : this.props.duel.u1_name
+    const opponentName = this.props.duel.u1_name === this.props.authState.name ? this.props.duel.u2_name : this.props.duel.u1_name
+    const { dailies } = this.props.dailies
+    const dailyNames = dailies.map(daily=> daily.name)
 
     return (
       <Container
@@ -107,7 +110,13 @@ const opponentName = this.props.duel.u1_name === this.props.authState.name ? thi
               <Card>
                 <CardHeader><Badge pill>{this.state.user.userDailies ? this.state.user.userDailyCounts.reduce((acc, val)=> acc + val ) : null}/15</Badge> Your Dailies:</CardHeader>
                     <ListGroup>
-                      <ListGroupItem>{this.state.user.userDailies ? this.state.user.userDailies[0]: null} <Badge color='info' pill>{this.state.user.userDailies ? this.state.user.userDailyCounts[0]: null}/5</Badge></ListGroupItem>
+                      <ListGroupItem>{
+                          this.state.user.userDailies && this.props.dailies ?
+
+                          dailyNames.find(ele => ele === this.state.user.userDailies[0])
+
+                        : null}
+                           <Badge color='info' pill>{this.state.user.userDailies ? this.state.user.userDailyCounts[0]: null}/5</Badge></ListGroupItem>
                       <ListGroupItem>{this.state.user.userDailies ? this.state.user.userDailies[1]: null} <Badge color='info' pill>{this.state.user.userDailies ? this.state.user.userDailyCounts[1]: null}/5</Badge></ListGroupItem>
                       <ListGroupItem>{this.state.user.userDailies ? this.state.user.userDailies[2]: null} <Badge color='info' pill>{this.state.user.userDailies ? this.state.user.userDailyCounts[2]: null}/5</Badge></ListGroupItem>
                     </ListGroup>
@@ -159,8 +168,12 @@ const opponentName = this.props.duel.u1_name === this.props.authState.name ? thi
   }
 }
 
+const mapStateToProps = ({dailies}) => {
+  return {dailies}
+}
+
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({rejectDuel, confirmDuel}, dispatch)
 }
 
-export default withAuthentication(connect(null, mapDispatchToProps)(Duel));
+export default withAuthentication(connect(mapStateToProps, mapDispatchToProps)(Duel));

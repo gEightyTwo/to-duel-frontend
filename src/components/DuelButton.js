@@ -64,9 +64,9 @@ class DuelButton extends React.Component {
           <ModalHeader toggle={this.toggle}>Duel Settings</ModalHeader>
           <ModalBody>
             <Form
-              onSubmit={async (event)=>{
+              onSubmit={(event)=>{
                 event.preventDefault()
-                await this.props.addDuel(this.props.authState.id, event.target.select.value, this.state.value);
+                this.props.addDuel(this.props.authState.id, event.target.select.value, this.state.value);
                 this.setState({value: [], modal: !this.state.modal})
               }}>
               <FormGroup>
