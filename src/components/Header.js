@@ -35,11 +35,17 @@ class Header extends React.Component {
             { this.props.authState ? (
               <Nav className="ml-auto" navbar>
                 <NavItem>
-                  <NavLink href="/" className="nav-link" onClick={() => this.props.userLogout()}>Log Out</NavLink>
+                  <NavLink href="https://github.com/gEightyTwo/to-duel-frontend" className="nav-link" onClick={() => this.props.userLogout()}>Github</NavLink>
+                </NavItem>
+                <NavItem>
+                  <Link className="nav-link" to="/" onClick={() => this.props.userLogout()}>Log Out</Link>
                 </NavItem>
               </Nav>
             ) : (
               <Nav className="ml-auto" navbar>
+                <NavItem>
+                  <NavLink href="https://github.com/gEightyTwo/to-duel-frontend" className="nav-link" onClick={() => this.props.userLogout()}>Github</NavLink>
+                </NavItem>
                 <NavItem>
                   <Link className="nav-link" to="/login">Login</Link>
                 </NavItem>
