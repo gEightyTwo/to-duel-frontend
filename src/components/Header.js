@@ -1,11 +1,14 @@
 import React from 'react';
 
 import { Jumbotron, Container, Row, Col, Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
+import { BrowserRouter, Switch, Route, Link} from 'react-router-dom';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { userLogout } from '../actions/auth';
 import withAuthentication from '../helpers/withAuthentication'
+import Login from './Login';
+import Signup from './Signup';
 
 import banner from '../assets/jakub-kriz-414659-unsplash.jpg'
 import bigLogo from '../assets/fencing-duel(2).png' //from flaticon.com called fencing duel free icon
@@ -38,15 +41,17 @@ class Header extends React.Component {
             ) : (
               <Nav className="ml-auto" navbar>
                 <NavItem>
-                  <NavLink href="/login" className="nav-link">Log In</NavLink>
+                  <Link className="nav-link" to="/login">Login</Link>
                 </NavItem>
                 <NavItem>
-                  <NavLink href="/signup" className="nav-link">Sign Up</NavLink>
+                  <Link className="nav-link" to="/signup">Sign Up</Link>
                 </NavItem>
               </Nav>
             )
           }
         </Navbar>
+        <Route path="/login" component={Login} />
+        <Route path="/signup" component={Signup} />
       </div>
     );
   };
