@@ -1,7 +1,7 @@
 # To Duel (Frontend)
 
 This is the frontend of the project.
-The front ends can be found at: https://github.com/gEightyTwo/to-duel-backend
+The backend repo can be found at: https://github.com/gEightyTwo/to-duel-backend
 
 To Duel is a full-stack to-do web application.  The app allows users to engage in multiple concurrent head-to-head challenges with other users to encourage better daily habits.
 
@@ -35,7 +35,10 @@ Start the react development server:
 ## Deployment
 
 This project has been deployed on Heroku at the address:
-http://to-duel.herokuapp.com/
+https://to-duel.herokuapp.com/
+![screenshot](./src/assets/to-duel-screenshot.png)
+
+
 
 ## Built With
 

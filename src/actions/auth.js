@@ -14,6 +14,9 @@ export const NOT_LOGGED_IN = 'NOT_LOGGED_IN';
 
 export const USER_LOGOUT = 'USER_LOGOUT';
 
+export const CLEAR_DAILIES = 'CLEAR_DAILIES';
+export const CLEAR_DUELS = 'CLEAR_DUELS';
+
 export const userLogin = ({email, password}, history) => (
   dispatch => {
     dispatch({type: USER_LOGIN_PENDING});
@@ -82,5 +85,8 @@ export const userLogout = () => (
   dispatch => {
     localStorage.removeItem('token');
     dispatch({type: USER_LOGOUT});
+    dispatch({type: CLEAR_DAILIES});
+    dispatch({type: CLEAR_DUELS});
+    AuthenticationService.setAuthState(null)
   }
 );
