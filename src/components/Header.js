@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Jumbotron, Container, Row, Col, Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
-import { BrowserRouter, Switch, Route, Link} from 'react-router-dom';
+import { Route, Link} from 'react-router-dom';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
